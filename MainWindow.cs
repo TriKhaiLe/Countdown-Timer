@@ -11,12 +11,13 @@ using System.IO;
 using System.Diagnostics;
 using Tulpep.NotificationWindow;
 using Timer;
+using System.Media;
 
 namespace Scheduler
 {
     public partial class Form1 : Form
     {
-        
+        private int period = 0;
 
         public Form1()
         {
@@ -34,11 +35,7 @@ namespace Scheduler
             shutdown_tm.Stop();
             shutdown_tm.Tick -= timer_alert;
 
-            PopupNotifier popup = new PopupNotifier();
-            popup.Image = Timer.Properties.Resources.clock;
-            popup.TitleText = "Hurry!";
-            popup.ContentText = "Dập máy sau 5 phút 0 giây";
-            popup.Popup();
+            PopupAlert();
 
             shutdown_tm.Interval = 300000;
             shutdown_tm.Tick += timer_shutdown;
@@ -52,65 +49,27 @@ namespace Scheduler
             label1.Text = "Thời gian hẹn giờ:";
             period_box.Text = "25";
 
-            string filename = string.Empty;
-            string arguments = string.Empty;
-
-            //if (radioButton1.Checked == true)
-            //{
-            //    filename = "shutdown.exe";
-            //    arguments = "-s";
-            //}
-
-            //ProcessStartInfo startExecute = new ProcessStartInfo(filename, arguments);
-            //Process.Start(startExecute);
-            //MessageBox.Show("Sleep");
-
             Application.SetSuspendState(PowerState.Suspend, true, true);
 
         }
 
-        int tick_time = 1000;
+        private void PopupAlert()
+        {
+            PopupNotifier popup = new PopupNotifier();
+            popup.Image = Timer.Properties.Resources.clock;
+            popup.TitleText = "Hurry!";
+            popup.Popup();
+        }
+
         private void start_Click(object sender, EventArgs e)
         {
-
             try
             {
-                int period = Convert.ToInt32(this.period_box.Text);
-                switch (timeUnit_box.Text)
-                {
-                    case "second":
-                        {
-                            tick_time = 1000;
-                            period *= 1000;
-                            
-                            break;
-                        }
-
-                    case "minute":
-                        {
-                            tick_time = 60 * 1000;
-                            period *= 60 * 1000;
-
-                            break;
-                        }
-
-                    case "hour":
-                        {
-                            //period_box.Text = $"{--period}";
-                            tick_time = 60 * 60 * 100;
-                            period *= 60 * 60 * 1000;
-
-                            break;
-                        }
-                }
+                period = GetPeriod();
 
                 if (period <= 300000)
                 {
-                    PopupNotifier popup = new PopupNotifier();
-                    popup.Image = Timer.Properties.Resources.clock;
-                    popup.TitleText = "Hurry!";
-                    popup.ContentText = $"Dập máy sau {period / 60000} phút {period / 1000} giây";
-                    popup.Popup();
+                    PopupAlert();
 
                     shutdown_tm.Interval = period;
                     shutdown_tm.Tick += timer_shutdown;
@@ -126,17 +85,38 @@ namespace Scheduler
                 AnnounceWindow announceWindow = new AnnounceWindow();
                 announceWindow.ShowDialog();
                 this.WindowState = FormWindowState.Minimized;
-
-                remaining_tm.Interval = tick_time;
-                remaining_tm.Start();
-                label1.Text = "Thời gian còn lại:";
             }
             catch
             {
                 MessageBox.Show("Vui lòng nhập đầy đủ thông tin");
             }
+        }
 
+        private int GetPeriod()
+        {
+            int period = Convert.ToInt32(this.period_box.Text);
+            switch (timeUnit_box.Text)
+            {
+                case "second":
+                    {
+                        period *= 1000;
+                        break;
+                    }
 
+                case "minute":
+                    {
+                        period *= 60 * 1000;
+                        break;
+                    }
+
+                case "hour":
+                    {
+                        period *= 60 * 60 * 1000;
+                        break;
+                    }
+            }
+
+            return period;
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -150,11 +130,64 @@ namespace Scheduler
             }
         }
 
-        private void remaining_tm_Tick(object sender, EventArgs e)
+        private void postpone_btn_Click(object sender, EventArgs e)
         {
-            //T1
-            //T2
-            //T3
+            try
+            {
+                shutdown_tm.Interval = GetPeriod();
+                shutdown_tm.Tick += timer_postpone;
+                shutdown_tm.Start();
+
+                postpone_btn.Enabled = false;
+                this.WindowState = FormWindowState.Minimized;
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void timer_postpone(object sender, EventArgs e)
+        {
+            shutdown_tm.Stop();
+            shutdown_tm.Tick -= timer_postpone;
+
+            postpone_btn.Enabled = true;
+            this.WindowState = FormWindowState.Normal;
+        }
+
+        private void plus_btn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int period = Convert.ToInt32(this.period_box.Text);
+                period += 5;
+                period_box.Text = period.ToString();
+            }
+            catch
+            {
+
+            }
+
+        }
+
+        private void subtract_btn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int period = Convert.ToInt32(this.period_box.Text);
+                if (period - 5 > 0)
+                {
+                    period -= 5;
+                    period_box.Text = period.ToString();
+                }
+
+            }
+            catch
+            {
+
+            }
+
         }
     }
 }

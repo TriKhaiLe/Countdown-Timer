@@ -38,7 +38,9 @@ namespace Scheduler
             this.panel1 = new System.Windows.Forms.Panel();
             this.timeUnit_box = new System.Windows.Forms.ComboBox();
             this.shutdown_tm = new System.Windows.Forms.Timer(this.components);
-            this.remaining_tm = new System.Windows.Forms.Timer(this.components);
+            this.postpone_btn = new System.Windows.Forms.Button();
+            this.plus_btn = new System.Windows.Forms.Button();
+            this.subtract_btn = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -53,7 +55,7 @@ namespace Scheduler
             // 
             // period_box
             // 
-            this.period_box.Location = new System.Drawing.Point(160, 104);
+            this.period_box.Location = new System.Drawing.Point(140, 107);
             this.period_box.Name = "period_box";
             this.period_box.Size = new System.Drawing.Size(107, 22);
             this.period_box.TabIndex = 10;
@@ -61,7 +63,7 @@ namespace Scheduler
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(32, 107);
+            this.label1.Location = new System.Drawing.Point(12, 110);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(122, 17);
             this.label1.TabIndex = 11;
@@ -69,12 +71,13 @@ namespace Scheduler
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(296, 160);
+            this.button1.BackColor = System.Drawing.SystemColors.Window;
+            this.button1.Location = new System.Drawing.Point(287, 161);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(84, 36);
             this.button1.TabIndex = 12;
             this.button1.Text = "Bắt đầu";
-            this.button1.UseVisualStyleBackColor = true;
+            this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.start_Click);
             // 
             // radioButton1
@@ -104,7 +107,7 @@ namespace Scheduler
             "second",
             "minute",
             "hour"});
-            this.timeUnit_box.Location = new System.Drawing.Point(273, 102);
+            this.timeUnit_box.Location = new System.Drawing.Point(296, 105);
             this.timeUnit_box.Name = "timeUnit_box";
             this.timeUnit_box.Size = new System.Drawing.Size(75, 24);
             this.timeUnit_box.TabIndex = 17;
@@ -113,16 +116,48 @@ namespace Scheduler
             // 
             this.shutdown_tm.Interval = 10000;
             // 
-            // remaining_tm
+            // postpone_btn
             // 
-            this.remaining_tm.Interval = 60000;
-            this.remaining_tm.Tick += new System.EventHandler(this.remaining_tm_Tick);
+            this.postpone_btn.BackColor = System.Drawing.SystemColors.Window;
+            this.postpone_btn.Location = new System.Drawing.Point(12, 167);
+            this.postpone_btn.Name = "postpone_btn";
+            this.postpone_btn.Size = new System.Drawing.Size(94, 30);
+            this.postpone_btn.TabIndex = 18;
+            this.postpone_btn.Text = "Nhắc lại";
+            this.postpone_btn.UseVisualStyleBackColor = false;
+            this.postpone_btn.Click += new System.EventHandler(this.postpone_btn_Click);
+            // 
+            // plus_btn
+            // 
+            this.plus_btn.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.plus_btn.Location = new System.Drawing.Point(253, 92);
+            this.plus_btn.Name = "plus_btn";
+            this.plus_btn.Size = new System.Drawing.Size(36, 24);
+            this.plus_btn.TabIndex = 19;
+            this.plus_btn.Text = "+";
+            this.plus_btn.UseVisualStyleBackColor = false;
+            this.plus_btn.Click += new System.EventHandler(this.plus_btn_Click);
+            // 
+            // subtract_btn
+            // 
+            this.subtract_btn.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.subtract_btn.Location = new System.Drawing.Point(253, 122);
+            this.subtract_btn.Name = "subtract_btn";
+            this.subtract_btn.Size = new System.Drawing.Size(36, 24);
+            this.subtract_btn.TabIndex = 20;
+            this.subtract_btn.Text = "-";
+            this.subtract_btn.UseVisualStyleBackColor = false;
+            this.subtract_btn.Click += new System.EventHandler(this.subtract_btn_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(383, 195);
+            this.BackColor = System.Drawing.SystemColors.Info;
+            this.ClientSize = new System.Drawing.Size(383, 209);
+            this.Controls.Add(this.subtract_btn);
+            this.Controls.Add(this.plus_btn);
+            this.Controls.Add(this.postpone_btn);
             this.Controls.Add(this.timeUnit_box);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.button1);
@@ -131,7 +166,7 @@ namespace Scheduler
             this.Controls.Add(this.label4);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Scheduler";
+            this.Text = "Reminder";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panel1.ResumeLayout(false);
@@ -150,7 +185,9 @@ namespace Scheduler
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ComboBox timeUnit_box;
         private System.Windows.Forms.Timer shutdown_tm;
-        private System.Windows.Forms.Timer remaining_tm;
+        private System.Windows.Forms.Button postpone_btn;
+        private System.Windows.Forms.Button plus_btn;
+        private System.Windows.Forms.Button subtract_btn;
     }
 }
 
