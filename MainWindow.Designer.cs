@@ -80,6 +80,8 @@ namespace Scheduler
             this.start_btn.Text = "Bắt đầu";
             this.start_btn.UseVisualStyleBackColor = false;
             this.start_btn.Click += new System.EventHandler(this.start_Click);
+            this.start_btn.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ChangeColor_MouseDown);
+            this.start_btn.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ChangeColor_MouseUp);
             // 
             // radioButton1
             // 
@@ -127,6 +129,8 @@ namespace Scheduler
             this.postpone_btn.Text = "Nhắc lại";
             this.postpone_btn.UseVisualStyleBackColor = false;
             this.postpone_btn.Click += new System.EventHandler(this.postpone_btn_Click);
+            this.postpone_btn.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ChangeColor_MouseDown);
+            this.postpone_btn.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ChangeColor_MouseUp);
             // 
             // plus_btn
             // 

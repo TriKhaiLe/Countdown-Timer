@@ -27,6 +27,7 @@ namespace Scheduler
         
         private void Form1_Load(object sender, EventArgs e)
         {
+            this.BackColor = Color.FromArgb(255, 204, 0); 
             timeUnit_box.Text = "minute";
             period_box.Text = "25";
         }
@@ -70,6 +71,7 @@ namespace Scheduler
         {
             lb_periodBox.Text = "Thời gian hẹn giờ:";
             lb_periodBox.ForeColor = Color.Black;
+            lb_periodBox.BackColor = default;
 
             period_box.Text = "25";
             timeUnit_box.Text = "minute";
@@ -127,12 +129,7 @@ namespace Scheduler
                 }
 
                 AfterClick();
-
-                // thong bao bat dau
-                AnnounceWindow announceWindow = new AnnounceWindow();
-                announceWindow.ShowDialog();
                 this.WindowState = FormWindowState.Minimized;
-
             }
             catch
             {
@@ -146,14 +143,14 @@ namespace Scheduler
             try
             {
                 // lay interval
-                shutdown_tm.Interval = GetPeriod();
+                period = GetPeriod();
+                shutdown_tm.Interval = period;
 
                 // them tick event
                 shutdown_tm.Tick += timerPostpone_Tick;
                 shutdown_tm.Start();
 
                 AfterClick();
-
                 this.WindowState = FormWindowState.Minimized;
             }
             catch
@@ -173,6 +170,7 @@ namespace Scheduler
             // hien thi thoi gian con lai
             lb_periodBox.Text = "Thời gian còn lại:";
             lb_periodBox.ForeColor = Color.Red;
+            lb_periodBox.BackColor = Color.White;
             display_tm.Interval = 1000;
             display_tm.Start();
         }
@@ -250,6 +248,27 @@ namespace Scheduler
 
             }
 
+        }
+
+        private void ChangeColor_MouseDown(object sender, MouseEventArgs e)
+        {
+            Button btn = (Button)sender;
+            if (btn == null)
+                return;
+
+            if (btn.Text == "Nhắc lại")
+                btn.BackColor = Color.LimeGreen;
+            else
+                btn.BackColor = Color.Orange;
+        }
+
+        private void ChangeColor_MouseUp(object sender, MouseEventArgs e)
+        {
+            Button btn = (Button)sender;
+            if (btn == null)
+                return;
+
+            btn.BackColor = Color.White;
         }
 
     }
