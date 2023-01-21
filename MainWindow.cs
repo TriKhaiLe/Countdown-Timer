@@ -12,6 +12,8 @@ using System.Diagnostics;
 using Tulpep.NotificationWindow;
 using Timer;
 using System.Media;
+using System.Windows.Media;
+using Color = System.Drawing.Color;
 
 namespace Scheduler
 {
@@ -19,6 +21,7 @@ namespace Scheduler
     {
         // milisecond
         private int period = 0;
+        MediaPlayer mediaPlayer = new MediaPlayer();
 
         public Form1()
         {
@@ -87,8 +90,20 @@ namespace Scheduler
         {
             period -= 1000;
 
+            if (period <= 10000)
+            {
+                // phat am thanh dem nguoc
+                string workingDirectory = Environment.CurrentDirectory;
+                string projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
+                string path = projectDirectory + "\\Timer\\Resources\\countdown-sound.wav";
+                mediaPlayer.Open(new Uri(path));
+                mediaPlayer.Volume = 0.1;
+                mediaPlayer.Play();
+            }
+
             if (period <= 0)
             {
+                mediaPlayer.Stop();
                 display_tm.Stop();
                 return;
             }
@@ -250,7 +265,8 @@ namespace Scheduler
 
         }
 
-        private void ChangeColor_MouseDown(object sender, MouseEventArgs e)
+
+        private void ChangeColor_MouseHover(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
             if (btn == null)
@@ -262,7 +278,7 @@ namespace Scheduler
                 btn.BackColor = Color.Orange;
         }
 
-        private void ChangeColor_MouseUp(object sender, MouseEventArgs e)
+        private void ChangeColor_MouseLeave(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
             if (btn == null)
@@ -270,6 +286,5 @@ namespace Scheduler
 
             btn.BackColor = Color.White;
         }
-
     }
 }
