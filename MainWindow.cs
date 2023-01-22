@@ -72,6 +72,11 @@ namespace Scheduler
 
         private void AfterTick()
         {
+            // dung dong ho dem giay
+            mediaPlayer.Stop();
+            display_tm.Stop();
+
+            // reset tat ca noi dung tren cua so
             lb_periodBox.Text = "Thời gian hẹn giờ:";
             lb_periodBox.ForeColor = Color.Black;
             lb_periodBox.BackColor = default;
