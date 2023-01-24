@@ -20,102 +20,81 @@ namespace Scheduler
     public partial class Form1 : Form
     {
         // milisecond
-        private int period = 0;
-        MediaPlayer mediaPlayer = new MediaPlayer();
+        private int _period = 0;
+        private char _option = '0';
+        private char _alertLatch = '0';
+        private char _soundLatch = '0';
+        MediaPlayer _mediaPlayer = new MediaPlayer();
 
         public Form1()
         {
             InitializeComponent();
         }
-        
+
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.BackColor = Color.FromArgb(255, 204, 0); 
+            this.BackColor = Color.FromArgb(255, 204, 0);
             timeUnit_box.Text = "minute";
             period_box.Text = "25";
         }
 
-        private void timerAlert_Tick(object sender, EventArgs e)
+        private void timer_Tick(object sender, EventArgs e)
         {
-            shutdown_tm.Stop();
-            shutdown_tm.Tick -= timerAlert_Tick;
-
-            PopupAlert();
-
-            shutdown_tm.Interval = 300000;
-            shutdown_tm.Tick += timerShutdown_Tick;
-            shutdown_tm.Start();
-        }
-        
-
-        private void timerShutdown_Tick(object sender, EventArgs e)
-        {
-            shutdown_tm.Stop();
-            shutdown_tm.Tick -= timerShutdown_Tick;
-
-            AfterTick();
-
-            Application.SetSuspendState(PowerState.Suspend, true, true);
-            //MessageBox.Show("Boom");
-
-        }
-
-        private void timerPostpone_Tick(object sender, EventArgs e)
-        {
-            shutdown_tm.Stop();
-            shutdown_tm.Tick -= timerPostpone_Tick;
-
-            AfterTick();
-
-            this.WindowState = FormWindowState.Normal;
-        }
-
-        private void AfterTick()
-        {
-            // dung dong ho dem giay
-            mediaPlayer.Stop();
-            display_tm.Stop();
-
-            // reset tat ca noi dung tren cua so
-            lb_periodBox.Text = "Thời gian hẹn giờ:";
-            lb_periodBox.ForeColor = Color.Black;
-            lb_periodBox.BackColor = default;
-
-            period_box.Text = "25";
-            timeUnit_box.Text = "minute";
-
-            start_btn.Enabled = true;
-            postpone_btn.Enabled = true; 
-            plus_btn.Enabled = true;
-            subtract_btn.Enabled = true;
-
-        }
-
-        private void display_tm_Tick(object sender, EventArgs e)
-        {
-            period -= 1000;
-
-            if (period <= 10000)
+            if (_period <= 0)
             {
-                // phat am thanh dem nguoc
-                string workingDirectory = Environment.CurrentDirectory;
-                string projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
-                string path = projectDirectory + "\\Timer\\Resources\\countdown-sound.wav";
-                mediaPlayer.Open(new Uri(path));
-                mediaPlayer.Volume = 0.1;
-                mediaPlayer.Play();
-            }
+                _mediaPlayer.Stop();
+                _timer.Stop();
 
-            if (period <= 0)
-            {
-                mediaPlayer.Stop();
-                display_tm.Stop();
+                // reset noi dung cua so
+                lb_periodBox.Text = "Thời gian hẹn giờ:";
+                lb_periodBox.ForeColor = Color.Black;
+                lb_periodBox.BackColor = default;
+
+                period_box.Text = "25";
+                timeUnit_box.Text = "minute";
+
+                start_btn.Enabled = true;
+                postpone_btn.Enabled = true;
+                plus_btn.Enabled = true;
+                subtract_btn.Enabled = true;
+
+                // reset fields
+                _alertLatch = '0';
+                _soundLatch = '0';
+
+                if (_option == '0')
+                    this.WindowState = FormWindowState.Normal;
+                else
+                    Application.SetSuspendState(PowerState.Suspend, true, true);
+                //MessageBox.Show("Boom");
+
                 return;
             }
 
-            period_box.Text = TimeSpan.FromSeconds(period / 1000).ToString();
-        }
+            // phat am thanh dem nguoc khi con 10 giay
+            if (_period <= 10000 && _soundLatch == '0')
+            {
+                string workingDirectory = Environment.CurrentDirectory;
+                string projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
+                string path = projectDirectory + "\\Timer\\Resources\\countdown-sound.wav";
 
+                _mediaPlayer.Open(new Uri(path));
+                _mediaPlayer.Volume = 0.1;
+                _mediaPlayer.Play();
+                _soundLatch = '1';
+            }
+
+            // thong bao khi con 5p
+            if (_period <= 300000 && _alertLatch == '0')
+            {
+                PopupAlert();
+                _alertLatch = '1';
+            }
+
+            period_box.Text = TimeSpan.FromSeconds(_period / 1000).ToString();
+
+            _period -= 1000;
+        }
 
         private void PopupAlert()
         {
@@ -129,98 +108,86 @@ namespace Scheduler
         {
             try
             {
-                // lay interval
-                period = GetPeriod();
+                // lay button
+                Button btn = (Button)sender;
+                if (btn == null)
+                    return;
 
-                // them tick event
-                if (period <= 300000)
-                {
-                    PopupAlert();
-
-                    shutdown_tm.Interval = period;
-                    shutdown_tm.Tick += timerShutdown_Tick;
-                    shutdown_tm.Start();
-                }
+                if (btn == postpone_btn)
+                    _option = '0';
                 else
-                {
-                    shutdown_tm.Interval = period - 300000;
-                    shutdown_tm.Tick += timerAlert_Tick;
-                    shutdown_tm.Start();
-                }
+                    _option = '1';
 
-                AfterClick();
-                this.WindowState = FormWindowState.Minimized;
-            }
-            catch
-            {
-                MessageBox.Show("Vui lòng nhập đầy đủ thông tin");
-            }
-        }
-
-
-        private void postpone_btn_Click(object sender, EventArgs e)
-        {
-            try
-            {
                 // lay interval
-                period = GetPeriod();
-                shutdown_tm.Interval = period;
+                _period = GetPeriod();
+                if (_period == -1)
+                    return;
 
-                // them tick event
-                shutdown_tm.Tick += timerPostpone_Tick;
-                shutdown_tm.Start();
+                _timer.Interval = _period;
 
-                AfterClick();
+                // vo hieu hoa 4 nut
+                start_btn.Enabled = false;
+                postpone_btn.Enabled = false;
+                plus_btn.Enabled = false;
+                subtract_btn.Enabled = false;
+
+                // hien thi "Thoi gian con lai"
+                lb_periodBox.Text = "Thời gian còn lại:";
+                lb_periodBox.ForeColor = Color.Red;
+                lb_periodBox.BackColor = Color.White;
+
+                // setup timer
+                _timer.Interval = 1000;
+                _timer.Start();
+
                 this.WindowState = FormWindowState.Minimized;
             }
             catch
             {
-
+                MessageBox.Show("Vui lòng kiểm tra lại thông tin");
             }
-        }
-
-        private void AfterClick()
-        {
-            // vo hieu hoa 4 nut
-            start_btn.Enabled = false;
-            postpone_btn.Enabled = false;
-            plus_btn.Enabled = false;
-            subtract_btn.Enabled = false;
-
-            // hien thi thoi gian con lai
-            lb_periodBox.Text = "Thời gian còn lại:";
-            lb_periodBox.ForeColor = Color.Red;
-            lb_periodBox.BackColor = Color.White;
-            display_tm.Interval = 1000;
-            display_tm.Start();
         }
 
 
         private int GetPeriod()
         {
-            int period = Convert.ToInt32(this.period_box.Text);
-            switch (timeUnit_box.Text)
+            try
             {
-                case "second":
-                    {
-                        period *= 1000;
-                        break;
-                    }
+                int period = Convert.ToInt32(this.period_box.Text);
 
-                case "minute":
-                    {
-                        period *= 60 * 1000;
-                        break;
-                    }
+                switch (timeUnit_box.Text)
+                {
+                    case "second":
+                        {
+                            period *= 1000;
+                            break;
+                        }
 
-                case "hour":
-                    {
-                        period *= 60 * 60 * 1000;
-                        break;
-                    }
+                    case "minute":
+                        {
+                            period *= 60 * 1000;
+                            break;
+                        }
+
+                    case "hour":
+                        {
+                            period *= 60 * 60 * 1000;
+                            break;
+                        }
+
+                    default:
+                        {
+                            MessageBox.Show("Vui lòng kiểm tra lại thông tin");
+                            return -1;
+                        }
+                }
+                return period;
             }
-
-            return period;
+            catch
+            {
+                MessageBox.Show("Vui lòng kiểm tra lại thông tin");
+                return -1;
+            }
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -234,8 +201,6 @@ namespace Scheduler
             }
         }
 
-
-
         private void plus_btn_Click(object sender, EventArgs e)
         {
             try
@@ -244,11 +209,7 @@ namespace Scheduler
                 period += 5;
                 period_box.Text = period.ToString();
             }
-            catch
-            {
-
-            }
-
+            catch { }
         }
 
         private void subtract_btn_Click(object sender, EventArgs e)
@@ -270,7 +231,6 @@ namespace Scheduler
 
         }
 
-
         private void ChangeColor_MouseHover(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
@@ -291,5 +251,6 @@ namespace Scheduler
 
             btn.BackColor = Color.White;
         }
+
     }
 }

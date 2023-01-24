@@ -37,11 +37,10 @@ namespace Scheduler
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.timeUnit_box = new System.Windows.Forms.ComboBox();
-            this.shutdown_tm = new System.Windows.Forms.Timer(this.components);
             this.postpone_btn = new System.Windows.Forms.Button();
             this.plus_btn = new System.Windows.Forms.Button();
             this.subtract_btn = new System.Windows.Forms.Button();
-            this.display_tm = new System.Windows.Forms.Timer(this.components);
+            this._timer = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -115,10 +114,6 @@ namespace Scheduler
             this.timeUnit_box.Size = new System.Drawing.Size(75, 24);
             this.timeUnit_box.TabIndex = 17;
             // 
-            // shutdown_tm
-            // 
-            this.shutdown_tm.Interval = 10000;
-            // 
             // postpone_btn
             // 
             this.postpone_btn.BackColor = System.Drawing.SystemColors.Window;
@@ -128,7 +123,7 @@ namespace Scheduler
             this.postpone_btn.TabIndex = 18;
             this.postpone_btn.Text = "Nhắc lại";
             this.postpone_btn.UseVisualStyleBackColor = false;
-            this.postpone_btn.Click += new System.EventHandler(this.postpone_btn_Click);
+            this.postpone_btn.Click += new System.EventHandler(this.start_Click);
             this.postpone_btn.MouseLeave += new System.EventHandler(this.ChangeColor_MouseLeave);
             this.postpone_btn.MouseHover += new System.EventHandler(this.ChangeColor_MouseHover);
             // 
@@ -154,9 +149,9 @@ namespace Scheduler
             this.subtract_btn.UseVisualStyleBackColor = false;
             this.subtract_btn.Click += new System.EventHandler(this.subtract_btn_Click);
             // 
-            // display_tm
+            // _timer
             // 
-            this.display_tm.Tick += new System.EventHandler(this.display_tm_Tick);
+            this._timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
             // Form1
             // 
@@ -193,11 +188,10 @@ namespace Scheduler
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ComboBox timeUnit_box;
-        private System.Windows.Forms.Timer shutdown_tm;
         private System.Windows.Forms.Button postpone_btn;
         private System.Windows.Forms.Button plus_btn;
         private System.Windows.Forms.Button subtract_btn;
-        private System.Windows.Forms.Timer display_tm;
+        private System.Windows.Forms.Timer _timer;
     }
 }
 
