@@ -20,10 +20,12 @@ namespace Scheduler
     public partial class Form1 : Form
     {
         // milisecond
-        private int _period = 0;
-        private char _option = '0';
-        private char _alertLatch = '0';
-        private char _soundLatch = '0';
+        int _period = 0;
+        char _option = '0';
+        char _alertLatch = '0'; // bien latch de su kien ko dien ra 2 lan
+        char _soundLatch = '0';
+        double _pomo = 0;
+        string[] _todayData;
         MediaPlayer _mediaPlayer = new MediaPlayer();
 
         public Form1()
@@ -36,6 +38,41 @@ namespace Scheduler
             this.BackColor = Color.FromArgb(255, 204, 0);
             timeUnit_box.Text = "minute";
             period_box.Text = "25";
+
+            string workingDirectory = Environment.CurrentDirectory;
+            string projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
+            string path = projectDirectory + "\\Timer\\Resources\\countdown-sound.wav";
+
+            _mediaPlayer.Open(new Uri(path));
+            _mediaPlayer.Volume = 0.1;
+
+            string today = DateTime.Now.ToString("dd/MM/yyyy");
+
+            // doc du lieu neu file ton tai
+            if (File.Exists("today.txt"))
+                _todayData = File.ReadAllLines("today.txt");
+
+            // khoi tao du lieu neu ko ton tai
+            else
+            {
+                _todayData = new string[] {today, "0"};
+                File.WriteAllLines("today.txt", _todayData);
+            }
+
+            // neu da qua ngay moi
+            if (_todayData[0] != today)
+            {
+                File.AppendAllLines("history.txt", _todayData);
+
+                _todayData = new string[] { today, "0" };
+                File.WriteAllLines("today.txt", _todayData);
+            }
+
+            // lay so pomo
+            if (!double.TryParse(_todayData[1], out _pomo))
+                MessageBox.Show("Data pomo bị lỗi!");
+
+            date_lb.Text = $"Hôm nay {_todayData[0]}, đã học {_todayData[1]} pomo(es)";
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -44,6 +81,10 @@ namespace Scheduler
             {
                 _mediaPlayer.Stop();
                 _timer.Stop();
+
+                _todayData[1] = _pomo.ToString("F1");
+                date_lb.Text = $"Hôm nay {_todayData[0]}, đã học {_todayData[1]} pomo(es)";
+                File.WriteAllLines("today.txt", _todayData);
 
                 // reset noi dung cua so
                 lb_periodBox.Text = "Thời gian hẹn giờ:";
@@ -74,12 +115,6 @@ namespace Scheduler
             // phat am thanh dem nguoc khi con 10 giay
             if (_period <= 10000 && _soundLatch == '0')
             {
-                string workingDirectory = Environment.CurrentDirectory;
-                string projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
-                string path = projectDirectory + "\\Timer\\Resources\\countdown-sound.wav";
-
-                _mediaPlayer.Open(new Uri(path));
-                _mediaPlayer.Volume = 0.1;
                 _mediaPlayer.Play();
                 _soundLatch = '1';
             }
@@ -123,7 +158,7 @@ namespace Scheduler
                 if (_period == -1)
                     return;
 
-                _timer.Interval = _period;
+                _pomo += _period / 1000.0 / 60.0 / 25.0;
 
                 // vo hieu hoa 4 nut
                 start_btn.Enabled = false;
@@ -192,13 +227,25 @@ namespace Scheduler
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            _timer.Stop();
             if (MessageBox.Show("Are you sure you want to Exit?",
                         "Hey!",
                         MessageBoxButtons.YesNo,
                         MessageBoxIcon.Information) == DialogResult.No)
             {
                 e.Cancel = true;
+                _timer.Start();
+                return;
             }
+            else
+            {
+                // tinh lai so pomo da dung
+                _pomo -= _period / 1000.0 / 60.0 / 25.0;
+                _todayData[1] = _pomo.ToString("F1");
+                File.WriteAllLines("today.txt", _todayData);
+            }
+
+
         }
 
         private void plus_btn_Click(object sender, EventArgs e)
