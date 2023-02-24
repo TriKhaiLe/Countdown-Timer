@@ -34,21 +34,21 @@ namespace Scheduler
             this.period_box = new System.Windows.Forms.TextBox();
             this.lb_periodBox = new System.Windows.Forms.Label();
             this.start_btn = new System.Windows.Forms.Button();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.timeUnit_box = new System.Windows.Forms.ComboBox();
             this.postpone_btn = new System.Windows.Forms.Button();
             this.plus_btn = new System.Windows.Forms.Button();
             this.subtract_btn = new System.Windows.Forms.Button();
             this._timer = new System.Windows.Forms.Timer(this.components);
             this.date_lb = new System.Windows.Forms.Label();
-            this.panel1.SuspendLayout();
+            this.reset_btn = new System.Windows.Forms.Button();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(54, 59);
+            this.label4.Location = new System.Drawing.Point(51, 55);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(100, 17);
             this.label4.TabIndex = 6;
@@ -73,7 +73,7 @@ namespace Scheduler
             // start_btn
             // 
             this.start_btn.BackColor = System.Drawing.SystemColors.Window;
-            this.start_btn.Location = new System.Drawing.Point(287, 177);
+            this.start_btn.Location = new System.Drawing.Point(287, 179);
             this.start_btn.Name = "start_btn";
             this.start_btn.Size = new System.Drawing.Size(84, 36);
             this.start_btn.TabIndex = 12;
@@ -82,26 +82,6 @@ namespace Scheduler
             this.start_btn.Click += new System.EventHandler(this.start_Click);
             this.start_btn.MouseLeave += new System.EventHandler(this.ChangeColor_MouseLeave);
             this.start_btn.MouseHover += new System.EventHandler(this.ChangeColor_MouseHover);
-            // 
-            // radioButton1
-            // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Checked = true;
-            this.radioButton1.Location = new System.Drawing.Point(16, 3);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(81, 21);
-            this.radioButton1.TabIndex = 13;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Standby";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.radioButton1);
-            this.panel1.Location = new System.Drawing.Point(160, 54);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(135, 28);
-            this.panel1.TabIndex = 15;
             // 
             // timeUnit_box
             // 
@@ -118,9 +98,9 @@ namespace Scheduler
             // postpone_btn
             // 
             this.postpone_btn.BackColor = System.Drawing.SystemColors.Window;
-            this.postpone_btn.Location = new System.Drawing.Point(12, 183);
+            this.postpone_btn.Location = new System.Drawing.Point(12, 179);
             this.postpone_btn.Name = "postpone_btn";
-            this.postpone_btn.Size = new System.Drawing.Size(94, 30);
+            this.postpone_btn.Size = new System.Drawing.Size(94, 36);
             this.postpone_btn.TabIndex = 18;
             this.postpone_btn.Text = "Nhắc lại";
             this.postpone_btn.UseVisualStyleBackColor = false;
@@ -164,18 +144,52 @@ namespace Scheduler
             this.date_lb.TabIndex = 21;
             this.date_lb.Text = "Hôm nay";
             // 
+            // reset_btn
+            // 
+            this.reset_btn.Location = new System.Drawing.Point(112, 186);
+            this.reset_btn.Name = "reset_btn";
+            this.reset_btn.Size = new System.Drawing.Size(75, 23);
+            this.reset_btn.TabIndex = 23;
+            this.reset_btn.Text = "Reset";
+            this.reset_btn.UseVisualStyleBackColor = true;
+            this.reset_btn.Click += new System.EventHandler(this.reset_btn_Click);
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Location = new System.Drawing.Point(169, 41);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(167, 21);
+            this.radioButton1.TabIndex = 24;
+            this.radioButton1.TabStop = true;
+            this.radioButton1.Text = "Countdown n Standby";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Location = new System.Drawing.Point(169, 68);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(91, 21);
+            this.radioButton2.TabIndex = 25;
+            this.radioButton2.TabStop = true;
+            this.radioButton2.Text = "Hibernate";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Info;
             this.ClientSize = new System.Drawing.Size(383, 227);
+            this.Controls.Add(this.radioButton2);
+            this.Controls.Add(this.radioButton1);
+            this.Controls.Add(this.reset_btn);
             this.Controls.Add(this.date_lb);
             this.Controls.Add(this.subtract_btn);
             this.Controls.Add(this.plus_btn);
             this.Controls.Add(this.postpone_btn);
             this.Controls.Add(this.timeUnit_box);
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.start_btn);
             this.Controls.Add(this.lb_periodBox);
             this.Controls.Add(this.period_box);
@@ -185,8 +199,6 @@ namespace Scheduler
             this.Text = "Reminder";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -197,14 +209,15 @@ namespace Scheduler
         private System.Windows.Forms.TextBox period_box;
         private System.Windows.Forms.Label lb_periodBox;
         private System.Windows.Forms.Button start_btn;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ComboBox timeUnit_box;
         private System.Windows.Forms.Button postpone_btn;
         private System.Windows.Forms.Button plus_btn;
         private System.Windows.Forms.Button subtract_btn;
         private System.Windows.Forms.Timer _timer;
         private System.Windows.Forms.Label date_lb;
+        private System.Windows.Forms.Button reset_btn;
+        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton radioButton2;
     }
 }
 

@@ -21,8 +21,8 @@ namespace Scheduler
     {
         // milisecond
         int _period = 0;
-        char _option = '0';
-        char _alertLatch = '0'; // bien latch de su kien ko dien ra 2 lan
+        char _option = '0'; // 0 la "Nhac lai"
+        char _alertLatch = '0'; // bien latch de su kien ko dien ra nhieu lan
         char _soundLatch = '0';
         double _pomo = 0;
         string[] _todayData;
@@ -36,8 +36,10 @@ namespace Scheduler
         private void Form1_Load(object sender, EventArgs e)
         {
             this.BackColor = Color.FromArgb(255, 204, 0);
+            radioButton1.Checked = true;
             timeUnit_box.Text = "minute";
             period_box.Text = "25";
+            reset_btn.Enabled = false;
 
             string workingDirectory = Environment.CurrentDirectory;
             string projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
@@ -55,7 +57,7 @@ namespace Scheduler
             // khoi tao du lieu neu ko ton tai
             else
             {
-                _todayData = new string[] {today, "0"};
+                _todayData = new string[] { today, "0" };
                 File.WriteAllLines("today.txt", _todayData);
             }
 
@@ -86,13 +88,14 @@ namespace Scheduler
                 date_lb.Text = $"Hôm nay {_todayData[0]}, đã học {_todayData[1]} pomo(es)";
                 File.WriteAllLines("today.txt", _todayData);
 
-                // reset noi dung cua so
+                // reset noi dung form
                 lb_periodBox.Text = "Thời gian hẹn giờ:";
                 lb_periodBox.ForeColor = Color.Black;
                 lb_periodBox.BackColor = default;
 
                 period_box.Text = "25";
                 timeUnit_box.Text = "minute";
+                radioButton1.Checked = true;
 
                 start_btn.Enabled = true;
                 postpone_btn.Enabled = true;
@@ -100,14 +103,21 @@ namespace Scheduler
                 subtract_btn.Enabled = true;
 
                 // reset fields
+                _period = 0;
                 _alertLatch = '0';
                 _soundLatch = '0';
 
                 if (_option == '0')
+                {
                     this.WindowState = FormWindowState.Normal;
+                    reset_btn.Enabled = false;
+                }
                 else
+                {
+                    _option = '0';
                     Application.SetSuspendState(PowerState.Suspend, true, true);
-                //MessageBox.Show("Boom");
+                    //MessageBox.Show("Boom");
+                }
 
                 return;
             }
@@ -143,16 +153,30 @@ namespace Scheduler
         {
             try
             {
+                if (radioButton2.Checked == true)
+                {
+                    radioButton1.Checked = true;
+
+                    Application.SetSuspendState(PowerState.Hibernate, true, true);
+                    //MessageBox.Show("Boom");
+                    return;
+                }
+
                 // lay button
                 Button btn = (Button)sender;
                 if (btn == null)
                     return;
 
                 if (btn == postpone_btn)
+                {
                     _option = '0';
+                    reset_btn.Enabled = true;
+                }
                 else
+                {
                     _option = '1';
 
+                }
                 // lay interval
                 _period = GetPeriod();
                 if (_period == -1)
@@ -182,7 +206,6 @@ namespace Scheduler
                 MessageBox.Show("Vui lòng kiểm tra lại thông tin");
             }
         }
-
 
         private int GetPeriod()
         {
@@ -229,23 +252,23 @@ namespace Scheduler
         {
             _timer.Stop();
             if (MessageBox.Show("Are you sure you want to Exit?",
-                        "Hey!",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Information) == DialogResult.No)
+                                "Hey!",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Information) == DialogResult.No
+                                || _option == '1') // khong thoat duoc khi "Bat dau"
             {
                 e.Cancel = true;
-                _timer.Start();
+
+                if (_period > 0)
+                    _timer.Start();
+
                 return;
             }
-            else
-            {
-                // tinh lai so pomo da dung
-                _pomo -= _period / 1000.0 / 60.0 / 25.0;
-                _todayData[1] = _pomo.ToString("F1");
-                File.WriteAllLines("today.txt", _todayData);
-            }
 
-
+            // neu thoat, tinh lai so pomo da dung
+            _pomo -= _period / 1000.0 / 60.0 / 25.0;
+            _todayData[1] = _pomo.ToString("F1");
+            File.WriteAllLines("today.txt", _todayData);
         }
 
         private void plus_btn_Click(object sender, EventArgs e)
@@ -287,7 +310,7 @@ namespace Scheduler
             if (btn.Text == "Nhắc lại")
                 btn.BackColor = Color.LimeGreen;
             else
-                btn.BackColor = Color.Orange;
+                btn.BackColor = Color.Red;
         }
 
         private void ChangeColor_MouseLeave(object sender, EventArgs e)
@@ -299,5 +322,45 @@ namespace Scheduler
             btn.BackColor = Color.White;
         }
 
+        private void reset_btn_Click(object sender, EventArgs e)
+        {
+            _timer.Stop();
+
+            if (MessageBox.Show("Are you sure you want to Reset?",
+                        "Hey!",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question) == DialogResult.No)
+            {
+                _timer.Start();
+                return;
+            }
+
+            // tinh lai so pomo da dung
+            _pomo -= _period / 1000.0 / 60.0 / 25.0;
+            _todayData[1] = _pomo.ToString("F1");
+            File.WriteAllLines("today.txt", _todayData);
+
+            // reset noi dung form
+            date_lb.Text = $"Hôm nay {_todayData[0]}, đã học {_todayData[1]} pomo(es)";
+            lb_periodBox.Text = "Thời gian hẹn giờ:";
+            lb_periodBox.ForeColor = Color.Black;
+            lb_periodBox.BackColor = default;
+            period_box.Text = "25";
+            timeUnit_box.Text = "minute";
+            radioButton1.Checked = true;
+
+            // reset button
+            start_btn.Enabled = true;
+            postpone_btn.Enabled = true;
+            plus_btn.Enabled = true;
+            subtract_btn.Enabled = true;
+            reset_btn.Enabled = false;
+
+            // reset fields
+            _period = 0;
+            _option = '0';
+            _alertLatch = '0';
+            _soundLatch = '0';
+        }
     }
 }
