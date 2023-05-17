@@ -1,0 +1,22 @@
+C:\Timer\bin\Debug\Timer.exe.config
+C:\Timer\bin\Debug\Timer.exe
+C:\Timer\bin\Debug\Timer.pdb
+C:\Timer\obj\Debug\Timer.csproj.AssemblyReference.cache
+C:\Timer\obj\Debug\Timer.Properties.Resources.resources
+C:\Timer\obj\Debug\Timer.csproj.GenerateResource.cache
+C:\Timer\obj\Debug\Timer.csproj.CoreCompileInputs.cache
+C:\Timer\obj\Debug\Timer.exe
+C:\Timer\obj\Debug\Timer.pdb
+C:\Timer\obj\Debug\Scheduler.Form1.resources
+D:\Môn học\LTTQ\Timer\bin\Debug\Timer.exe.config
+D:\Môn học\LTTQ\Timer\bin\Debug\Timer.exe
+D:\Môn học\LTTQ\Timer\bin\Debug\Timer.pdb
+D:\Môn học\LTTQ\Timer\obj\Debug\Timer.csproj.AssemblyReference.cache
+D:\Môn học\LTTQ\Timer\obj\Debug\Scheduler.Form1.resources
+D:\Môn học\LTTQ\Timer\obj\Debug\Timer.Properties.Resources.resources
+D:\Môn học\LTTQ\Timer\obj\Debug\Timer.csproj.GenerateResource.cache
+D:\Môn học\LTTQ\Timer\obj\Debug\Timer.csproj.CoreCompileInputs.cache
+D:\Môn học\LTTQ\Timer\obj\Debug\Timer.exe
+D:\Môn học\LTTQ\Timer\obj\Debug\Timer.pdb
+D:\Môn học\LTTQ\Timer\bin\Debug\Tulpep.NotificationWindow.dll
+D:\Môn học\LTTQ\Timer\obj\Debug\Timer.csproj.CopyComplete
