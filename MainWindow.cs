@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using System.Diagnostics;
 using Tulpep.NotificationWindow;
-using Timer;
-using System.Media;
 using System.Windows.Media;
 using Color = System.Drawing.Color;
 
@@ -83,6 +73,7 @@ namespace Scheduler
             {
                 _mediaPlayer.Stop();
                 _timer.Stop();
+                _pauseTimer.Start();
 
                 _todayData[1] = _pomo.ToString("F1");
                 date_lb.Text = $"Hôm nay {_todayData[0]}, đã học {_todayData[1]} pomo(es)";
@@ -198,6 +189,7 @@ namespace Scheduler
                 // setup timer
                 _timer.Interval = 1000;
                 _timer.Start();
+                _pauseTimer.Stop();
 
                 this.WindowState = FormWindowState.Minimized;
             }
@@ -251,6 +243,7 @@ namespace Scheduler
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             _timer.Stop();
+            _pauseTimer.Start();
             if (MessageBox.Show("Are you sure you want to Exit?",
                                 "Hey!",
                                 MessageBoxButtons.YesNo,
@@ -260,8 +253,10 @@ namespace Scheduler
                 e.Cancel = true;
 
                 if (_period > 0)
+                {
                     _timer.Start();
-
+                    _pauseTimer.Stop();
+                }
                 return;
             }
 
@@ -325,6 +320,7 @@ namespace Scheduler
         private void reset_btn_Click(object sender, EventArgs e)
         {
             _timer.Stop();
+            _pauseTimer.Start();
 
             if (MessageBox.Show("Are you sure you want to Reset?",
                         "Hey!",
@@ -332,6 +328,7 @@ namespace Scheduler
                         MessageBoxIcon.Question) == DialogResult.No)
             {
                 _timer.Start();
+                _pauseTimer.Stop();
                 return;
             }
 
@@ -392,6 +389,11 @@ namespace Scheduler
 
         private void _pauseTimer_Tick(object sender, EventArgs e)
         {
+            // Minimize ứng dụng
+            this.WindowState = FormWindowState.Minimized;
+
+            // Hiển thị lại ứng dụng từ trạng thái minimize
+            this.WindowState = FormWindowState.Normal;
 
         }
     }

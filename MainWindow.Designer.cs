@@ -208,6 +208,8 @@ namespace Scheduler
             // 
             // _pauseTimer
             // 
+            this._pauseTimer.Enabled = true;
+            this._pauseTimer.Interval = 120000;
             this._pauseTimer.Tick += new System.EventHandler(this._pauseTimer_Tick);
             // 
             // Form1
