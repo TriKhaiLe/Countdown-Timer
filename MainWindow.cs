@@ -362,5 +362,37 @@ namespace Scheduler
             _alertLatch = '0';
             _soundLatch = '0';
         }
+
+        private void add_btn_Click(object sender, EventArgs e)
+        {
+            // add duration in minute from outer_time_box to pomo
+            try
+            {
+                double duration = Convert.ToDouble(outer_time_box.Text);
+                _pomo += duration / 25.0;
+                _todayData[1] = _pomo.ToString("F1");
+                File.WriteAllLines("today.txt", _todayData);
+
+                date_lb.Text = $"Hôm nay {_todayData[0]}, đã học {_todayData[1]} pomo(es)";
+                outer_time_box.Text = "";
+            }
+            catch
+            {
+                MessageBox.Show("Vui lòng kiểm tra lại thông tin");
+            }
+
+        }
+
+        // verify input just receiving positive integer
+        private void period_box_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+                e.Handled = true;
+        }
+
+        private void _pauseTimer_Tick(object sender, EventArgs e)
+        {
+
+        }
     }
 }

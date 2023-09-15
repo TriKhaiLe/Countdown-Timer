@@ -20,3 +20,16 @@ D:\Môn học\LTTQ\Timer\obj\Debug\Timer.exe
 D:\Môn học\LTTQ\Timer\obj\Debug\Timer.pdb
 D:\Môn học\LTTQ\Timer\bin\Debug\Tulpep.NotificationWindow.dll
 D:\Môn học\LTTQ\Timer\obj\Debug\Timer.csproj.CopyComplete
+C:\Users\ADMIN\Desktop\Timer\bin\Debug\Timer.exe.config
+C:\Users\ADMIN\Desktop\Timer\bin\Debug\Timer.exe
+C:\Users\ADMIN\Desktop\Timer\bin\Debug\Timer.pdb
+C:\Users\ADMIN\Desktop\Timer\bin\Debug\Tulpep.NotificationWindow.dll
+C:\Users\ADMIN\Desktop\Timer\obj\Debug\Timer.csproj.AssemblyReference.cache
+C:\Users\ADMIN\Desktop\Timer\obj\Debug\Timer.csproj.SuggestedBindingRedirects.cache
+C:\Users\ADMIN\Desktop\Timer\obj\Debug\Scheduler.Form1.resources
+C:\Users\ADMIN\Desktop\Timer\obj\Debug\Timer.Properties.Resources.resources
+C:\Users\ADMIN\Desktop\Timer\obj\Debug\Timer.csproj.GenerateResource.cache
+C:\Users\ADMIN\Desktop\Timer\obj\Debug\Timer.csproj.CoreCompileInputs.cache
+C:\Users\ADMIN\Desktop\Timer\obj\Debug\Timer.csproj.CopyComplete
+C:\Users\ADMIN\Desktop\Timer\obj\Debug\Timer.exe
+C:\Users\ADMIN\Desktop\Timer\obj\Debug\Timer.pdb

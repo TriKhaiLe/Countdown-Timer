@@ -43,6 +43,10 @@ namespace Scheduler
             this.reset_btn = new System.Windows.Forms.Button();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.outer_time_box = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.add_btn = new System.Windows.Forms.Button();
+            this._pauseTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // label4
@@ -50,7 +54,7 @@ namespace Scheduler
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(51, 55);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(100, 17);
+            this.label4.Size = new System.Drawing.Size(91, 16);
             this.label4.TabIndex = 6;
             this.label4.Text = "Chọn thao tác:\r\n";
             // 
@@ -66,7 +70,7 @@ namespace Scheduler
             this.lb_periodBox.AutoSize = true;
             this.lb_periodBox.Location = new System.Drawing.Point(12, 126);
             this.lb_periodBox.Name = "lb_periodBox";
-            this.lb_periodBox.Size = new System.Drawing.Size(122, 17);
+            this.lb_periodBox.Size = new System.Drawing.Size(113, 16);
             this.lb_periodBox.TabIndex = 11;
             this.lb_periodBox.Text = "Thời gian hẹn giờ:";
             // 
@@ -140,7 +144,7 @@ namespace Scheduler
             this.date_lb.BackColor = System.Drawing.SystemColors.HighlightText;
             this.date_lb.Location = new System.Drawing.Point(9, 9);
             this.date_lb.Name = "date_lb";
-            this.date_lb.Size = new System.Drawing.Size(64, 17);
+            this.date_lb.Size = new System.Drawing.Size(61, 16);
             this.date_lb.TabIndex = 21;
             this.date_lb.Text = "Hôm nay";
             // 
@@ -159,7 +163,7 @@ namespace Scheduler
             this.radioButton1.AutoSize = true;
             this.radioButton1.Location = new System.Drawing.Point(169, 41);
             this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(167, 21);
+            this.radioButton1.Size = new System.Drawing.Size(157, 20);
             this.radioButton1.TabIndex = 24;
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "Countdown n Standby";
@@ -170,18 +174,51 @@ namespace Scheduler
             this.radioButton2.AutoSize = true;
             this.radioButton2.Location = new System.Drawing.Point(169, 68);
             this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(91, 21);
+            this.radioButton2.Size = new System.Drawing.Size(87, 20);
             this.radioButton2.TabIndex = 25;
             this.radioButton2.TabStop = true;
             this.radioButton2.Text = "Hibernate";
             this.radioButton2.UseVisualStyleBackColor = true;
+            // 
+            // outer_time_box
+            // 
+            this.outer_time_box.Location = new System.Drawing.Point(180, 238);
+            this.outer_time_box.Name = "outer_time_box";
+            this.outer_time_box.Size = new System.Drawing.Size(67, 22);
+            this.outer_time_box.TabIndex = 26;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 241);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(139, 16);
+            this.label1.TabIndex = 27;
+            this.label1.Text = "Thời gian ngoài (phút):";
+            // 
+            // add_btn
+            // 
+            this.add_btn.Location = new System.Drawing.Point(253, 237);
+            this.add_btn.Name = "add_btn";
+            this.add_btn.Size = new System.Drawing.Size(75, 23);
+            this.add_btn.TabIndex = 28;
+            this.add_btn.Text = "Thêm";
+            this.add_btn.UseVisualStyleBackColor = true;
+            this.add_btn.Click += new System.EventHandler(this.add_btn_Click);
+            // 
+            // _pauseTimer
+            // 
+            this._pauseTimer.Tick += new System.EventHandler(this._pauseTimer_Tick);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Info;
-            this.ClientSize = new System.Drawing.Size(383, 227);
+            this.ClientSize = new System.Drawing.Size(383, 272);
+            this.Controls.Add(this.add_btn);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.outer_time_box);
             this.Controls.Add(this.radioButton2);
             this.Controls.Add(this.radioButton1);
             this.Controls.Add(this.reset_btn);
@@ -218,6 +255,10 @@ namespace Scheduler
         private System.Windows.Forms.Button reset_btn;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.TextBox outer_time_box;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button add_btn;
+        private System.Windows.Forms.Timer _pauseTimer;
     }
 }
 
