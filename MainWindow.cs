@@ -28,7 +28,7 @@ namespace Scheduler
             this.BackColor = Color.FromArgb(255, 204, 0);
             radioButton1.Checked = true;
             timeUnit_box.Text = "minute";
-            period_box.Text = "25";
+            period_box.Text = "45";
             reset_btn.Enabled = false;
 
             string workingDirectory = Environment.CurrentDirectory;
@@ -84,7 +84,7 @@ namespace Scheduler
                 lb_periodBox.ForeColor = Color.Black;
                 lb_periodBox.BackColor = default;
 
-                period_box.Text = "25";
+                period_box.Text = "45";
                 timeUnit_box.Text = "minute";
                 radioButton1.Checked = true;
 
@@ -342,7 +342,7 @@ namespace Scheduler
             lb_periodBox.Text = "Thời gian hẹn giờ:";
             lb_periodBox.ForeColor = Color.Black;
             lb_periodBox.BackColor = default;
-            period_box.Text = "25";
+            period_box.Text = "45";
             timeUnit_box.Text = "minute";
             radioButton1.Checked = true;
 
