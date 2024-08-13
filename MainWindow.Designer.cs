@@ -54,7 +54,7 @@ namespace Scheduler
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(51, 55);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(91, 16);
+            this.label4.Size = new System.Drawing.Size(118, 20);
             this.label4.TabIndex = 6;
             this.label4.Text = "Chọn thao tác:\r\n";
             // 
@@ -62,7 +62,7 @@ namespace Scheduler
             // 
             this.period_box.Location = new System.Drawing.Point(140, 123);
             this.period_box.Name = "period_box";
-            this.period_box.Size = new System.Drawing.Size(107, 22);
+            this.period_box.Size = new System.Drawing.Size(107, 26);
             this.period_box.TabIndex = 10;
             this.period_box.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.period_box_KeyPress);
             // 
@@ -71,7 +71,7 @@ namespace Scheduler
             this.lb_periodBox.AutoSize = true;
             this.lb_periodBox.Location = new System.Drawing.Point(12, 126);
             this.lb_periodBox.Name = "lb_periodBox";
-            this.lb_periodBox.Size = new System.Drawing.Size(113, 16);
+            this.lb_periodBox.Size = new System.Drawing.Size(141, 20);
             this.lb_periodBox.TabIndex = 11;
             this.lb_periodBox.Text = "Thời gian hẹn giờ:";
             // 
@@ -97,7 +97,7 @@ namespace Scheduler
             "hour"});
             this.timeUnit_box.Location = new System.Drawing.Point(296, 121);
             this.timeUnit_box.Name = "timeUnit_box";
-            this.timeUnit_box.Size = new System.Drawing.Size(75, 24);
+            this.timeUnit_box.Size = new System.Drawing.Size(75, 28);
             this.timeUnit_box.TabIndex = 17;
             // 
             // postpone_btn
@@ -145,7 +145,7 @@ namespace Scheduler
             this.date_lb.BackColor = System.Drawing.SystemColors.HighlightText;
             this.date_lb.Location = new System.Drawing.Point(9, 9);
             this.date_lb.Name = "date_lb";
-            this.date_lb.Size = new System.Drawing.Size(61, 16);
+            this.date_lb.Size = new System.Drawing.Size(76, 20);
             this.date_lb.TabIndex = 21;
             this.date_lb.Text = "Hôm nay";
             // 
@@ -164,7 +164,7 @@ namespace Scheduler
             this.radioButton1.AutoSize = true;
             this.radioButton1.Location = new System.Drawing.Point(169, 41);
             this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(157, 20);
+            this.radioButton1.Size = new System.Drawing.Size(192, 24);
             this.radioButton1.TabIndex = 24;
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "Countdown n Standby";
@@ -175,7 +175,7 @@ namespace Scheduler
             this.radioButton2.AutoSize = true;
             this.radioButton2.Location = new System.Drawing.Point(169, 68);
             this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(87, 20);
+            this.radioButton2.Size = new System.Drawing.Size(103, 24);
             this.radioButton2.TabIndex = 25;
             this.radioButton2.TabStop = true;
             this.radioButton2.Text = "Hibernate";
@@ -185,7 +185,7 @@ namespace Scheduler
             // 
             this.outer_time_box.Location = new System.Drawing.Point(180, 238);
             this.outer_time_box.Name = "outer_time_box";
-            this.outer_time_box.Size = new System.Drawing.Size(67, 22);
+            this.outer_time_box.Size = new System.Drawing.Size(67, 26);
             this.outer_time_box.TabIndex = 26;
             // 
             // label1
@@ -193,7 +193,7 @@ namespace Scheduler
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 241);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(139, 16);
+            this.label1.Size = new System.Drawing.Size(176, 20);
             this.label1.TabIndex = 27;
             this.label1.Text = "Thời gian ngoài (phút):";
             // 
@@ -215,8 +215,7 @@ namespace Scheduler
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.Info;
             this.ClientSize = new System.Drawing.Size(383, 272);
             this.Controls.Add(this.add_btn);
@@ -234,6 +233,7 @@ namespace Scheduler
             this.Controls.Add(this.lb_periodBox);
             this.Controls.Add(this.period_box);
             this.Controls.Add(this.label4);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Reminder";
@@ -245,23 +245,23 @@ namespace Scheduler
         }
 
         #endregion
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox period_box;
-        private System.Windows.Forms.Label lb_periodBox;
-        private System.Windows.Forms.Button start_btn;
-        private System.Windows.Forms.ComboBox timeUnit_box;
-        private System.Windows.Forms.Button postpone_btn;
-        private System.Windows.Forms.Button plus_btn;
-        private System.Windows.Forms.Button subtract_btn;
-        private System.Windows.Forms.Timer _timer;
-        private System.Windows.Forms.Label date_lb;
-        private System.Windows.Forms.Button reset_btn;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.TextBox outer_time_box;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button add_btn;
-        private System.Windows.Forms.Timer _pauseTimer;
+        public System.Windows.Forms.Label label4;
+        public System.Windows.Forms.TextBox period_box;
+        public System.Windows.Forms.Label lb_periodBox;
+        public System.Windows.Forms.Button start_btn;
+        public System.Windows.Forms.ComboBox timeUnit_box;
+        public System.Windows.Forms.Button postpone_btn;
+        public System.Windows.Forms.Button plus_btn;
+        public System.Windows.Forms.Button subtract_btn;
+        public System.Windows.Forms.Timer _timer;
+        public System.Windows.Forms.Label date_lb;
+        public System.Windows.Forms.Button reset_btn;
+        public System.Windows.Forms.RadioButton radioButton1;
+        public System.Windows.Forms.RadioButton radioButton2;
+        public System.Windows.Forms.TextBox outer_time_box;
+        public System.Windows.Forms.Label label1;
+        public System.Windows.Forms.Button add_btn;
+        public System.Windows.Forms.Timer _pauseTimer;
     }
 }
 

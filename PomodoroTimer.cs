@@ -1,0 +1,291 @@
+﻿using Scheduler;
+using System;
+using System.IO;
+using System.Windows.Forms;
+using Color = System.Drawing.Color;
+using Tulpep.NotificationWindow;
+
+namespace Timer
+{
+    public class PomodoroTimer
+    {
+        private readonly Form1 _form;
+        private const double PomodoroUnit = 25.0;
+        private const int OneSecond = 1000;
+
+        private int _remainingMilliseconds;
+        private char _currentOption = '0';
+        private char _alertLatch = '0';
+        private char _soundLatch = '0';
+        private double _pomodoroCount = 0;
+        private string[] _todayData;
+
+        public PomodoroTimer(Form1 form)
+        {
+            _form = form;
+        }
+
+        public void LoadTodayData()
+        {
+            string today = DateTime.Now.ToString("dd/MM/yyyy");
+            _todayData = File.Exists("today.txt") ? File.ReadAllLines("today.txt") : new[] { today, "0" };
+
+            if (_todayData[0] != today)
+            {
+                File.AppendAllLines("history.txt", _todayData);
+                _todayData = new[] { today, "0" };
+                File.WriteAllLines("today.txt", _todayData);
+            }
+
+            if (!double.TryParse(_todayData[1], out _pomodoroCount))
+            {
+                MessageBox.Show("Error reading Pomodoro data!");
+            }
+        }
+
+        public void UpdateUI()
+        {
+            _form.date_lb.Text = $"Today {_todayData[0]}, completed {_todayData[1]} pomodoros";
+        }
+
+        public void HandleTimerTick()
+        {
+            if (_remainingMilliseconds <= 0)
+            {
+                CompletePomodoroCycle();
+                return;
+            }
+
+            HandleCountdownAlerts();
+            UpdateTimerDisplay();
+            _remainingMilliseconds -= OneSecond;
+        }
+
+        private void HandleCountdownAlerts()
+        {
+            if (_remainingMilliseconds <= 10000 && _soundLatch == '0')
+            {
+                _form._mediaPlayer.Play();
+                _soundLatch = '1';
+            }
+
+            if (_remainingMilliseconds <= 300000 && _alertLatch == '0')
+            {
+                PopupAlert();
+                _alertLatch = '1';
+            }
+        }
+
+        private void PopupAlert()
+        {
+            PopupNotifier popup = new PopupNotifier();
+            popup.Image = Timer.Properties.Resources.clock;
+            popup.TitleText = "Hurry!";
+            popup.Popup();
+        }
+
+        private void UpdateTimerDisplay()
+        {
+            _form.period_box.Text = TimeSpan.FromMilliseconds(_remainingMilliseconds).ToString();
+        }
+
+        private void CompletePomodoroCycle()
+        {
+            StopAllTimers();
+            UpdatePomodoroCount();
+            ResetFormFields();
+
+            if (_currentOption == '0')
+            {
+                _form.WindowState = FormWindowState.Normal;
+                _form.reset_btn.Enabled = false;
+            }
+            else
+            {
+                _currentOption = '0';
+                Application.SetSuspendState(PowerState.Suspend, true, true);
+            }
+        }
+
+        private void StopAllTimers()
+        {
+            _form._mediaPlayer.Stop();
+            _form._timer.Stop();
+            _form._pauseTimer.Start();
+        }
+
+        private void UpdatePomodoroCount()
+        {
+            _todayData[1] = _pomodoroCount.ToString("F1");
+            _form.date_lb.Text = $"Today {_todayData[0]}, completed {_todayData[1]} pomodoros";
+            File.WriteAllLines("today.txt", _todayData);
+        }
+
+        private void ResetFormFields()
+        {
+            _form.lb_periodBox.Text = "Set Timer:";
+            _form.lb_periodBox.ForeColor = Color.Black;
+            _form.lb_periodBox.BackColor = default;
+
+            _form.period_box.Text = "45";
+            _form.timeUnit_box.Text = "minute";
+            _form.radioButton1.Checked = true;
+
+            _form.start_btn.Enabled = true;
+            _form.postpone_btn.Enabled = true;
+            _form.plus_btn.Enabled = true;
+            _form.subtract_btn.Enabled = true;
+
+            _form.reset_btn.Enabled = false;
+            _remainingMilliseconds = 0;
+            _alertLatch = '0';
+            _soundLatch = '0';
+        }
+
+        private void HibernateSystem()
+        {
+            _form.radioButton1.Checked = true;
+            Application.SetSuspendState(PowerState.Hibernate, true, true);
+        }
+
+
+        public void StartPomodoro(object sender)
+        {
+            if (_form.radioButton2.Checked)
+            {
+                _form.radioButton1.Checked = true;
+                Application.SetSuspendState(PowerState.Hibernate, true, true);
+                return;
+            }
+
+            SetPomodoroOption(sender as Button);
+            InitializePomodoroTimer();
+        }
+
+        private void SetPomodoroOption(Button button)
+        {
+            if (button == _form.postpone_btn)
+            {
+                _currentOption = '0';
+                _form.reset_btn.Enabled = true;
+            }
+            else
+            {
+                _currentOption = '1';
+            }
+        }
+
+        private void InitializePomodoroTimer()
+        {
+            _remainingMilliseconds = GetPeriodInMilliseconds();
+            if (_remainingMilliseconds == -1) return;
+
+            _pomodoroCount += _remainingMilliseconds / 1000.0 / 60.0 / PomodoroUnit;
+            DisableFormControls();
+
+            _form.lb_periodBox.Text = "Time remaining:";
+            _form.lb_periodBox.ForeColor = Color.Red;
+            _form.lb_periodBox.BackColor = Color.White;
+
+            _form._timer.Interval = OneSecond;
+            _form._timer.Start();
+            _form._pauseTimer.Stop();
+
+            _form.WindowState = FormWindowState.Minimized;
+        }
+
+        private int GetPeriodInMilliseconds()
+        {
+            try
+            {
+                int period = Convert.ToInt32(_form.period_box.Text);
+
+                int result;
+                switch (_form.timeUnit_box.Text)
+                {
+                    case "second":
+                        result = period * OneSecond;
+                        break;
+                    case "minute":
+                        result = period * 60 * OneSecond;
+                        break;
+                    case "hour":
+                        result = period * 60 * 60 * OneSecond;
+                        break;
+                    default:
+                        throw new InvalidOperationException();
+                }
+                return result;
+
+            }
+            catch
+            {
+                MessageBox.Show("Invalid input data. Please check again.");
+                return -1;
+            }
+        }
+
+        private void DisableFormControls()
+        {
+            _form.start_btn.Enabled = false;
+            _form.postpone_btn.Enabled = false;
+            _form.plus_btn.Enabled = false;
+            _form.subtract_btn.Enabled = false;
+        }
+
+        public void HandleFormClosing(FormClosingEventArgs e)
+        {
+            StopAllTimers();
+
+            if (MessageBox.Show("Are you sure you want to Exit?", "Hey!", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.No || _currentOption == '1')
+            {
+                e.Cancel = true;
+                ResumePomodoroTimer();
+                return;
+            }
+
+            UpdatePomodoroCount();
+        }
+
+        public void ResetPomodoro()
+        {
+            if (MessageBox.Show("Are you sure you want to Reset?", "Hey!", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+            {
+                ResumePomodoroTimer();
+                return;
+            }
+
+            UpdatePomodoroCount();
+            ResetFormFields();
+        }
+
+        private void ResumePomodoroTimer()
+        {
+            if (_remainingMilliseconds > 0)
+            {
+                _form._timer.Start();
+                _form._pauseTimer.Stop();
+            }
+        }
+
+
+        public void AddExternalPomodoroTime()
+        {
+            try
+            {
+                double duration = Convert.ToDouble(_form.outer_time_box.Text);
+                _pomodoroCount += duration / PomodoroUnit;
+                _todayData[1] = _pomodoroCount.ToString("F1");
+                File.WriteAllLines("today.txt", _todayData);
+
+                UpdateUI();
+                _form.outer_time_box.Text = "";
+            }
+            catch
+            {
+                MessageBox.Show("Invalid input data. Please check again.");
+            }
+        }
+
+    }
+}
