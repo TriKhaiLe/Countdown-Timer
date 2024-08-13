@@ -379,14 +379,6 @@ namespace Scheduler
             }
 
         }
-
-        // verify input just receiving positive integer
-        private void period_box_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-                e.Handled = true;
-        }
-
         private void _pauseTimer_Tick(object sender, EventArgs e)
         {
             // Minimize ứng dụng
@@ -396,5 +388,13 @@ namespace Scheduler
             this.WindowState = FormWindowState.Normal;
 
         }
+
+        // verify input just receiving positive integer
+        private void period_box_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+                e.Handled = true;
+        }
+
     }
 }

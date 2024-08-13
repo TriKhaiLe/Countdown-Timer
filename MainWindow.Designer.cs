@@ -64,6 +64,7 @@ namespace Scheduler
             this.period_box.Name = "period_box";
             this.period_box.Size = new System.Drawing.Size(107, 22);
             this.period_box.TabIndex = 10;
+            this.period_box.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.period_box_KeyPress);
             // 
             // lb_periodBox
             // 
