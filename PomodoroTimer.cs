@@ -103,7 +103,7 @@ namespace Timer
             else
             {
                 _currentOption = '0';
-                Application.SetSuspendState(PowerState.Suspend, true, true);
+                HibernateSystem();
             }
         }
 
@@ -135,7 +135,6 @@ namespace Timer
 
             _form.period_box.Text = "45";
             _form.timeUnit_box.Text = "minute";
-            _form.radioButton1.Checked = true;
 
             _form.start_btn.Enabled = true;
             _form.postpone_btn.Enabled = true;
@@ -150,19 +149,12 @@ namespace Timer
 
         private void HibernateSystem()
         {
-            _form.radioButton1.Checked = true;
             Application.SetSuspendState(PowerState.Hibernate, true, true);
         }
 
 
         public void StartPomodoro(object sender)
         {
-            if (_form.radioButton2.Checked)
-            {
-                HibernateSystem();
-                return;
-            }
-
             SetPomodoroOption(sender as Button);
             InitializePomodoroTimer();
         }
@@ -254,6 +246,7 @@ namespace Timer
 
         public void ResetPomodoro()
         {
+            StopAllTimers();
             if (MessageBox.Show("Are you sure you want to Reset?", "Hey!", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
             {
                 ResumePomodoroTimer();

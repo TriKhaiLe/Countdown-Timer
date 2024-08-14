@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.IO;
-using Tulpep.NotificationWindow;
 using Color = System.Drawing.Color;
 using Timer;
 

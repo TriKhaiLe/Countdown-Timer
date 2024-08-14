@@ -30,7 +30,6 @@ namespace Scheduler
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.label4 = new System.Windows.Forms.Label();
             this.period_box = new System.Windows.Forms.TextBox();
             this.lb_periodBox = new System.Windows.Forms.Label();
             this.start_btn = new System.Windows.Forms.Button();
@@ -41,7 +40,6 @@ namespace Scheduler
             this._timer = new System.Windows.Forms.Timer(this.components);
             this.date_lb = new System.Windows.Forms.Label();
             this.reset_btn = new System.Windows.Forms.Button();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.outer_time_box = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -49,18 +47,9 @@ namespace Scheduler
             this._pauseTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(51, 55);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(118, 20);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "Chọn thao tác:\r\n";
-            // 
             // period_box
             // 
-            this.period_box.Location = new System.Drawing.Point(140, 123);
+            this.period_box.Location = new System.Drawing.Point(169, 97);
             this.period_box.Name = "period_box";
             this.period_box.Size = new System.Drawing.Size(107, 26);
             this.period_box.TabIndex = 10;
@@ -68,7 +57,7 @@ namespace Scheduler
             // 
             // lb_periodBox
             // 
-            this.lb_periodBox.Location = new System.Drawing.Point(12, 125);
+            this.lb_periodBox.Location = new System.Drawing.Point(8, 97);
             this.lb_periodBox.Name = "lb_periodBox";
             this.lb_periodBox.Size = new System.Drawing.Size(113, 23);
             this.lb_periodBox.TabIndex = 11;
@@ -95,7 +84,7 @@ namespace Scheduler
             "second",
             "minute",
             "hour"});
-            this.timeUnit_box.Location = new System.Drawing.Point(296, 121);
+            this.timeUnit_box.Location = new System.Drawing.Point(296, 129);
             this.timeUnit_box.Name = "timeUnit_box";
             this.timeUnit_box.Size = new System.Drawing.Size(75, 28);
             this.timeUnit_box.TabIndex = 17;
@@ -116,7 +105,7 @@ namespace Scheduler
             // plus_btn
             // 
             this.plus_btn.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.plus_btn.Location = new System.Drawing.Point(253, 108);
+            this.plus_btn.Location = new System.Drawing.Point(282, 97);
             this.plus_btn.Name = "plus_btn";
             this.plus_btn.Size = new System.Drawing.Size(36, 24);
             this.plus_btn.TabIndex = 19;
@@ -127,7 +116,7 @@ namespace Scheduler
             // subtract_btn
             // 
             this.subtract_btn.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.subtract_btn.Location = new System.Drawing.Point(253, 138);
+            this.subtract_btn.Location = new System.Drawing.Point(127, 96);
             this.subtract_btn.Name = "subtract_btn";
             this.subtract_btn.Size = new System.Drawing.Size(36, 24);
             this.subtract_btn.TabIndex = 20;
@@ -159,23 +148,11 @@ namespace Scheduler
             this.reset_btn.UseVisualStyleBackColor = true;
             this.reset_btn.Click += new System.EventHandler(this.reset_btn_Click);
             // 
-            // radioButton1
-            // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(169, 41);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(192, 24);
-            this.radioButton1.TabIndex = 24;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Countdown n Standby";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            // 
             // radioButton2
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(169, 68);
+            this.radioButton2.Location = new System.Drawing.Point(149, 37);
             this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(103, 24);
+            this.radioButton2.Size = new System.Drawing.Size(118, 32);
             this.radioButton2.TabIndex = 25;
             this.radioButton2.TabStop = true;
             this.radioButton2.Text = "Hibernate";
@@ -222,7 +199,6 @@ namespace Scheduler
             this.Controls.Add(this.label1);
             this.Controls.Add(this.outer_time_box);
             this.Controls.Add(this.radioButton2);
-            this.Controls.Add(this.radioButton1);
             this.Controls.Add(this.reset_btn);
             this.Controls.Add(this.date_lb);
             this.Controls.Add(this.subtract_btn);
@@ -232,7 +208,6 @@ namespace Scheduler
             this.Controls.Add(this.start_btn);
             this.Controls.Add(this.lb_periodBox);
             this.Controls.Add(this.period_box);
-            this.Controls.Add(this.label4);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -245,7 +220,6 @@ namespace Scheduler
         }
 
         #endregion
-        public System.Windows.Forms.Label label4;
         public System.Windows.Forms.TextBox period_box;
         public System.Windows.Forms.Label lb_periodBox;
         public System.Windows.Forms.Button start_btn;
@@ -256,7 +230,6 @@ namespace Scheduler
         public System.Windows.Forms.Timer _timer;
         public System.Windows.Forms.Label date_lb;
         public System.Windows.Forms.Button reset_btn;
-        public System.Windows.Forms.RadioButton radioButton1;
         public System.Windows.Forms.RadioButton radioButton2;
         public System.Windows.Forms.TextBox outer_time_box;
         public System.Windows.Forms.Label label1;
