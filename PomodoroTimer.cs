@@ -116,9 +116,15 @@ namespace Timer
 
         private void UpdatePomodoroCount()
         {
+            double lastPomo = Convert.ToDouble(_todayData[1]);
+            _pomodoroCount -= _remainingMilliseconds / 1000.0 / 60.0 / PomodoroUnit;
+            double newAmount = _pomodoroCount - lastPomo;
             _todayData[1] = _pomodoroCount.ToString("F1");
             _form.date_lb.Text = $"Today {_todayData[0]}, completed {_todayData[1]} pomodoros";
             File.WriteAllLines("today.txt", _todayData);
+
+            string message = $"Bạn đã hoàn thành {newAmount.ToString("F1")} Pomodoro!";
+            _form._toolTip.Show(message, _form, _form.Width / 2, _form.Height / 2, 2000);
         }
 
         private void ResetFormFields()
@@ -153,8 +159,7 @@ namespace Timer
         {
             if (_form.radioButton2.Checked)
             {
-                _form.radioButton1.Checked = true;
-                Application.SetSuspendState(PowerState.Hibernate, true, true);
+                HibernateSystem();
                 return;
             }
 

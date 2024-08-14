@@ -68,12 +68,12 @@ namespace Scheduler
             // 
             // lb_periodBox
             // 
-            this.lb_periodBox.AutoSize = true;
-            this.lb_periodBox.Location = new System.Drawing.Point(12, 126);
+            this.lb_periodBox.Location = new System.Drawing.Point(12, 125);
             this.lb_periodBox.Name = "lb_periodBox";
-            this.lb_periodBox.Size = new System.Drawing.Size(141, 20);
+            this.lb_periodBox.Size = new System.Drawing.Size(113, 23);
             this.lb_periodBox.TabIndex = 11;
-            this.lb_periodBox.Text = "Thời gian hẹn giờ:";
+            this.lb_periodBox.Text = "Set Timer:";
+            this.lb_periodBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // start_btn
             // 

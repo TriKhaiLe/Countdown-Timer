@@ -42,6 +42,8 @@ namespace Scheduler
             _pomodoroTimer.HandleFormClosing(e);
         }
 
+        public ToolTip _toolTip = new ToolTip();
+
         private void reset_btn_Click(object sender, EventArgs e)
         {
             _pomodoroTimer.ResetPomodoro();
