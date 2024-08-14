@@ -32,7 +32,7 @@ namespace Scheduler
 
         private void start_Click(object sender, EventArgs e)
         {
-            _pomodoroTimer.StartPomodoro(sender);
+            _pomodoroTimer.StartPomodoro();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -121,5 +121,18 @@ namespace Scheduler
                 e.Handled = true;
         }
 
+        private void checkBoxHibernate_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (_timer.Enabled)
+            {
+                MessageBox.Show("Please stop timer before hibernating.");
+                return;
+            }
+
+            if (checkBoxHibernate.Checked && 
+                e.Button == MouseButtons.Right)
+                _pomodoroTimer.HibernateSystem();
+
+        }
     }
 }

@@ -102,7 +102,6 @@ namespace Timer
             }
             else
             {
-                _currentOption = '0';
                 HibernateSystem();
             }
         }
@@ -132,11 +131,8 @@ namespace Timer
             _form.lb_periodBox.Text = "Set Timer:";
             _form.lb_periodBox.ForeColor = Color.Black;
             _form.lb_periodBox.BackColor = default;
-
             _form.period_box.Text = "45";
-            _form.timeUnit_box.Text = "minute";
 
-            _form.start_btn.Enabled = true;
             _form.postpone_btn.Enabled = true;
             _form.plus_btn.Enabled = true;
             _form.subtract_btn.Enabled = true;
@@ -147,21 +143,23 @@ namespace Timer
             _soundLatch = '0';
         }
 
-        private void HibernateSystem()
+        public void HibernateSystem()
         {
+            _currentOption = '0';
+            _form.checkBoxHibernate.Checked = false;
             Application.SetSuspendState(PowerState.Hibernate, true, true);
         }
 
 
-        public void StartPomodoro(object sender)
+        public void StartPomodoro()
         {
-            SetPomodoroOption(sender as Button);
+            SetPomodoroOption();
             InitializePomodoroTimer();
         }
 
-        private void SetPomodoroOption(Button button)
+        private void SetPomodoroOption()
         {
-            if (button == _form.postpone_btn)
+            if (!_form.checkBoxHibernate.Checked)
             {
                 _currentOption = '0';
                 _form.reset_btn.Enabled = true;
@@ -169,6 +167,7 @@ namespace Timer
             else
             {
                 _currentOption = '1';
+                _form.reset_btn.Enabled = false;
             }
         }
 
@@ -195,25 +194,8 @@ namespace Timer
         {
             try
             {
-                int period = Convert.ToInt32(_form.period_box.Text);
-
-                int result;
-                switch (_form.timeUnit_box.Text)
-                {
-                    case "second":
-                        result = period * OneSecond;
-                        break;
-                    case "minute":
-                        result = period * 60 * OneSecond;
-                        break;
-                    case "hour":
-                        result = period * 60 * 60 * OneSecond;
-                        break;
-                    default:
-                        throw new InvalidOperationException();
-                }
+                int result = Convert.ToInt32(_form.period_box.Text) * 60 * OneSecond;
                 return result;
-
             }
             catch
             {
@@ -224,17 +206,21 @@ namespace Timer
 
         private void DisableFormControls()
         {
-            _form.start_btn.Enabled = false;
             _form.postpone_btn.Enabled = false;
             _form.plus_btn.Enabled = false;
             _form.subtract_btn.Enabled = false;
+            _form.add_btn.Enabled = false;
         }
 
         public void HandleFormClosing(FormClosingEventArgs e)
         {
             StopAllTimers();
 
-            if (MessageBox.Show("Are you sure you want to Exit?", "Hey!", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.No || _currentOption == '1')
+            if (MessageBox.Show("Are you sure you want to Exit?", "Hey!", 
+                MessageBoxButtons.YesNo, 
+                MessageBoxIcon.Information) 
+                == 
+                DialogResult.No || _currentOption == '1')
             {
                 e.Cancel = true;
                 ResumePomodoroTimer();
