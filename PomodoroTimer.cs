@@ -133,7 +133,7 @@ namespace Timer
             _form.lb_periodBox.BackColor = default;
             _form.period_box.Text = "45";
 
-            _form.postpone_btn.Enabled = true;
+            _form.start_btn.Enabled = true;
             _form.plus_btn.Enabled = true;
             _form.subtract_btn.Enabled = true;
 
@@ -206,7 +206,7 @@ namespace Timer
 
         private void DisableFormControls()
         {
-            _form.postpone_btn.Enabled = false;
+            _form.start_btn.Enabled = false;
             _form.plus_btn.Enabled = false;
             _form.subtract_btn.Enabled = false;
             _form.add_btn.Enabled = false;

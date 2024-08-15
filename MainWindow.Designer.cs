@@ -31,7 +31,7 @@ namespace Scheduler
         {
             this.components = new System.ComponentModel.Container();
             this.period_box = new System.Windows.Forms.TextBox();
-            this.postpone_btn = new System.Windows.Forms.Button();
+            this.start_btn = new System.Windows.Forms.Button();
             this.plus_btn = new System.Windows.Forms.Button();
             this.subtract_btn = new System.Windows.Forms.Button();
             this._timer = new System.Windows.Forms.Timer(this.components);
@@ -56,18 +56,18 @@ namespace Scheduler
             this.period_box.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.period_box.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.period_box_KeyPress);
             // 
-            // postpone_btn
+            // start_btn
             // 
-            this.postpone_btn.BackColor = System.Drawing.SystemColors.Window;
-            this.postpone_btn.Location = new System.Drawing.Point(298, 111);
-            this.postpone_btn.Name = "postpone_btn";
-            this.postpone_btn.Size = new System.Drawing.Size(94, 36);
-            this.postpone_btn.TabIndex = 18;
-            this.postpone_btn.Text = "Start";
-            this.postpone_btn.UseVisualStyleBackColor = false;
-            this.postpone_btn.Click += new System.EventHandler(this.start_Click);
-            this.postpone_btn.MouseLeave += new System.EventHandler(this.ChangeColor_MouseLeave);
-            this.postpone_btn.MouseHover += new System.EventHandler(this.ChangeColor_MouseHover);
+            this.start_btn.BackColor = System.Drawing.SystemColors.Window;
+            this.start_btn.Location = new System.Drawing.Point(298, 111);
+            this.start_btn.Name = "start_btn";
+            this.start_btn.Size = new System.Drawing.Size(94, 36);
+            this.start_btn.TabIndex = 18;
+            this.start_btn.Text = "Start";
+            this.start_btn.UseVisualStyleBackColor = false;
+            this.start_btn.Click += new System.EventHandler(this.start_Click);
+            this.start_btn.MouseLeave += new System.EventHandler(this.ChangeColor_MouseLeave);
+            this.start_btn.MouseHover += new System.EventHandler(this.ChangeColor_MouseHover);
             // 
             // plus_btn
             // 
@@ -104,8 +104,9 @@ namespace Scheduler
             this.date_lb.Name = "date_lb";
             this.date_lb.Size = new System.Drawing.Size(414, 25);
             this.date_lb.TabIndex = 21;
-            this.date_lb.Text = "Hôm nay";
+            this.date_lb.Text = "Today";
             this.date_lb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.date_lb.DoubleClick += new System.EventHandler(this.date_lb_DoubleClick);
             // 
             // reset_btn
             // 
@@ -207,7 +208,7 @@ namespace Scheduler
             this.Controls.Add(this.date_lb);
             this.Controls.Add(this.subtract_btn);
             this.Controls.Add(this.plus_btn);
-            this.Controls.Add(this.postpone_btn);
+            this.Controls.Add(this.start_btn);
             this.Controls.Add(this.period_box);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "Form1";
@@ -222,7 +223,7 @@ namespace Scheduler
 
         #endregion
         public System.Windows.Forms.TextBox period_box;
-        public System.Windows.Forms.Button postpone_btn;
+        public System.Windows.Forms.Button start_btn;
         public System.Windows.Forms.Button plus_btn;
         public System.Windows.Forms.Button subtract_btn;
         public System.Windows.Forms.Timer _timer;

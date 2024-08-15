@@ -21,8 +21,7 @@ namespace Scheduler
         {
             UIHelper.InitializeUI(this);
             _mediaPlayer.InitializeMediaPlayer();
-            _pomodoroTimer.LoadTodayData();
-            _pomodoroTimer.UpdateUI();
+            LoadAndInitializeDayData();
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -94,24 +93,13 @@ namespace Scheduler
 
         private void ChangeColor_MouseHover(object sender, EventArgs e)
         {
-            Button btn = (Button)sender;
-            if (btn == null)
-                return;
-
-            if (btn.Text == "Nhắc lại")
-                btn.BackColor = Color.LimeGreen;
-            else
-                btn.BackColor = Color.Red;
+            start_btn.BackColor = Color.LimeGreen;
         }
 
 
         private void ChangeColor_MouseLeave(object sender, EventArgs e)
         {
-            Button btn = (Button)sender;
-            if (btn == null)
-                return;
-
-            btn.BackColor = Color.White;
+            start_btn.BackColor = Color.White;
         }
 
         // verify input just receiving positive integer
@@ -134,5 +122,20 @@ namespace Scheduler
                 _pomodoroTimer.HibernateSystem();
 
         }
+
+        private void date_lb_DoubleClick(object sender, EventArgs e)
+        {
+            LoadAndInitializeDayData();
+        }
+
+        private void LoadAndInitializeDayData()
+        {
+            // Load today's data
+            _pomodoroTimer.LoadTodayData();
+
+            // Update the UI based on today's data
+            _pomodoroTimer.UpdateUI();
+        }
+
     }
 }
