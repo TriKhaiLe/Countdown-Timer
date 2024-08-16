@@ -18,7 +18,7 @@ namespace Timer
         private char _alertLatch = '0';
         private char _soundLatch = '0';
         private double _pomodoroCount = 0;
-        private string[] _todayData;
+        public string[] _todayData;
 
         public PomodoroTimer(Form1 form)
         {
@@ -136,6 +136,7 @@ namespace Timer
             _form.start_btn.Enabled = true;
             _form.plus_btn.Enabled = true;
             _form.subtract_btn.Enabled = true;
+            _form.add_btn.Enabled = true;
 
             _form.reset_btn.Enabled = false;
             _remainingMilliseconds = 0;

@@ -53,12 +53,8 @@ namespace Scheduler
 
         private void _pauseTimer_Tick(object sender, EventArgs e)
         {
-            // Minimize ứng dụng
             this.WindowState = FormWindowState.Minimized;
-
-            // Hiển thị lại ứng dụng từ trạng thái minimize
             this.WindowState = FormWindowState.Normal;
-
         }
 
         private void plus_btn_Click(object sender, EventArgs e)
@@ -69,7 +65,9 @@ namespace Scheduler
                 period += 5;
                 period_box.Text = period.ToString();
             }
-            catch { }
+            catch {
+                MessageBox.Show("Something went wrong!");
+            }
         }
 
         private void subtract_btn_Click(object sender, EventArgs e)
@@ -86,7 +84,7 @@ namespace Scheduler
             }
             catch
             {
-
+                MessageBox.Show("Something went wrong!");
             }
 
         }
@@ -125,7 +123,9 @@ namespace Scheduler
 
         private void date_lb_DoubleClick(object sender, EventArgs e)
         {
-            LoadAndInitializeDayData();
+            string today = DateTime.Now.ToString("dd/MM/yyyy");
+            if (_pomodoroTimer._todayData[0] != today)
+                LoadAndInitializeDayData();
         }
 
         private void LoadAndInitializeDayData()
