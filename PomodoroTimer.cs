@@ -130,7 +130,6 @@ namespace Timer
         {
             _form.lb_periodBox.Text = "Set Timer:";
             _form.lb_periodBox.ForeColor = Color.Black;
-            _form.lb_periodBox.BackColor = default;
             _form.period_box.Text = "45";
 
             _form.start_btn.Enabled = true;
@@ -182,7 +181,6 @@ namespace Timer
 
             _form.lb_periodBox.Text = "Time remaining:";
             _form.lb_periodBox.ForeColor = Color.Red;
-            _form.lb_periodBox.BackColor = Color.White;
 
             _form._timer.Interval = OneSecond;
             _form._timer.Start();

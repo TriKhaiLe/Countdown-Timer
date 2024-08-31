@@ -97,7 +97,7 @@ namespace Scheduler
             // 
             // date_lb
             // 
-            this.date_lb.BackColor = System.Drawing.SystemColors.HighlightText;
+            this.date_lb.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.date_lb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.date_lb.Dock = System.Windows.Forms.DockStyle.Top;
             this.date_lb.Location = new System.Drawing.Point(0, 0);
@@ -107,6 +107,7 @@ namespace Scheduler
             this.date_lb.Text = "Today";
             this.date_lb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.date_lb.DoubleClick += new System.EventHandler(this.date_lb_DoubleClick);
+            this.date_lb.MouseHover += new System.EventHandler(this.date_lb_MouseHover);
             // 
             // reset_btn
             // 
@@ -124,11 +125,13 @@ namespace Scheduler
             this.outer_time_box.Name = "outer_time_box";
             this.outer_time_box.Size = new System.Drawing.Size(67, 26);
             this.outer_time_box.TabIndex = 26;
+            this.outer_time_box.TabStop = false;
             this.outer_time_box.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label1
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Location = new System.Drawing.Point(4, 186);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(410, 20);
@@ -154,16 +157,18 @@ namespace Scheduler
             // 
             // checkBoxHibernate
             // 
+            this.checkBoxHibernate.BackColor = System.Drawing.Color.Transparent;
             this.checkBoxHibernate.Location = new System.Drawing.Point(159, 108);
             this.checkBoxHibernate.Name = "checkBoxHibernate";
             this.checkBoxHibernate.Size = new System.Drawing.Size(133, 44);
             this.checkBoxHibernate.TabIndex = 30;
             this.checkBoxHibernate.Text = "Hibernate";
-            this.checkBoxHibernate.UseVisualStyleBackColor = true;
+            this.checkBoxHibernate.UseVisualStyleBackColor = false;
             this.checkBoxHibernate.MouseDown += new System.Windows.Forms.MouseEventHandler(this.checkBoxHibernate_MouseDown);
             // 
             // lb_periodBox
             // 
+            this.lb_periodBox.BackColor = System.Drawing.Color.Transparent;
             this.lb_periodBox.Dock = System.Windows.Forms.DockStyle.Top;
             this.lb_periodBox.Location = new System.Drawing.Point(0, 25);
             this.lb_periodBox.Name = "lb_periodBox";

@@ -124,6 +124,7 @@ namespace Scheduler
         private void date_lb_DoubleClick(object sender, EventArgs e)
         {
             string today = DateTime.Now.ToString("dd/MM/yyyy");
+            UIHelper.InitializeUI(this);
             if (_pomodoroTimer._todayData[0] != today)
                 LoadAndInitializeDayData();
         }
@@ -137,5 +138,10 @@ namespace Scheduler
             _pomodoroTimer.UpdateUI();
         }
 
+        private void date_lb_MouseHover(object sender, EventArgs e)
+        {
+            // show some signals to user
+            _toolTip.Show("Double click to refresh", date_lb);
+        }
     }
 }
