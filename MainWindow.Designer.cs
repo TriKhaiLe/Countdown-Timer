@@ -36,7 +36,6 @@ namespace ChroniTask
             this.subtract_btn = new System.Windows.Forms.Button();
             this._timer = new System.Windows.Forms.Timer(this.components);
             this.date_lb = new System.Windows.Forms.Label();
-            this.reset_btn = new System.Windows.Forms.Button();
             this._pauseTimer = new System.Windows.Forms.Timer(this.components);
             this.checkBoxHibernate = new System.Windows.Forms.CheckBox();
             this.lb_periodBox = new System.Windows.Forms.Label();
@@ -56,7 +55,7 @@ namespace ChroniTask
             // 
             // period_box
             // 
-            this.period_box.Location = new System.Drawing.Point(153, 61);
+            this.period_box.Location = new System.Drawing.Point(91, 61);
             this.period_box.Name = "period_box";
             this.period_box.Size = new System.Drawing.Size(107, 26);
             this.period_box.TabIndex = 18;
@@ -66,7 +65,7 @@ namespace ChroniTask
             // start_btn
             // 
             this.start_btn.BackColor = System.Drawing.SystemColors.Window;
-            this.start_btn.Location = new System.Drawing.Point(296, 101);
+            this.start_btn.Location = new System.Drawing.Point(98, 106);
             this.start_btn.Name = "start_btn";
             this.start_btn.Size = new System.Drawing.Size(94, 36);
             this.start_btn.TabIndex = 10;
@@ -79,7 +78,7 @@ namespace ChroniTask
             // plus_btn
             // 
             this.plus_btn.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.plus_btn.Location = new System.Drawing.Point(266, 61);
+            this.plus_btn.Location = new System.Drawing.Point(204, 61);
             this.plus_btn.Name = "plus_btn";
             this.plus_btn.Size = new System.Drawing.Size(36, 26);
             this.plus_btn.TabIndex = 19;
@@ -90,7 +89,7 @@ namespace ChroniTask
             // subtract_btn
             // 
             this.subtract_btn.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.subtract_btn.Location = new System.Drawing.Point(111, 61);
+            this.subtract_btn.Location = new System.Drawing.Point(49, 61);
             this.subtract_btn.Name = "subtract_btn";
             this.subtract_btn.Size = new System.Drawing.Size(36, 26);
             this.subtract_btn.TabIndex = 20;
@@ -109,22 +108,12 @@ namespace ChroniTask
             this.date_lb.Dock = System.Windows.Forms.DockStyle.Top;
             this.date_lb.Location = new System.Drawing.Point(0, 0);
             this.date_lb.Name = "date_lb";
-            this.date_lb.Size = new System.Drawing.Size(414, 25);
+            this.date_lb.Size = new System.Drawing.Size(294, 25);
             this.date_lb.TabIndex = 21;
             this.date_lb.Text = "Today";
             this.date_lb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.date_lb.DoubleClick += new System.EventHandler(this.date_lb_DoubleClick);
             this.date_lb.MouseHover += new System.EventHandler(this.date_lb_MouseHover);
-            // 
-            // reset_btn
-            // 
-            this.reset_btn.Location = new System.Drawing.Point(23, 101);
-            this.reset_btn.Name = "reset_btn";
-            this.reset_btn.Size = new System.Drawing.Size(94, 36);
-            this.reset_btn.TabIndex = 23;
-            this.reset_btn.Text = "Reset";
-            this.reset_btn.UseVisualStyleBackColor = true;
-            this.reset_btn.Click += new System.EventHandler(this.reset_btn_Click);
             // 
             // _pauseTimer
             // 
@@ -135,9 +124,10 @@ namespace ChroniTask
             // checkBoxHibernate
             // 
             this.checkBoxHibernate.BackColor = System.Drawing.Color.Transparent;
-            this.checkBoxHibernate.Location = new System.Drawing.Point(157, 98);
+            this.checkBoxHibernate.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxHibernate.Location = new System.Drawing.Point(222, 104);
             this.checkBoxHibernate.Name = "checkBoxHibernate";
-            this.checkBoxHibernate.Size = new System.Drawing.Size(133, 44);
+            this.checkBoxHibernate.Size = new System.Drawing.Size(69, 44);
             this.checkBoxHibernate.TabIndex = 30;
             this.checkBoxHibernate.Text = "Hibernate";
             this.checkBoxHibernate.UseVisualStyleBackColor = false;
@@ -149,10 +139,10 @@ namespace ChroniTask
             this.lb_periodBox.Dock = System.Windows.Forms.DockStyle.Top;
             this.lb_periodBox.Location = new System.Drawing.Point(0, 0);
             this.lb_periodBox.Name = "lb_periodBox";
-            this.lb_periodBox.Size = new System.Drawing.Size(414, 38);
+            this.lb_periodBox.Size = new System.Drawing.Size(294, 38);
             this.lb_periodBox.TabIndex = 32;
-            this.lb_periodBox.Text = "Set Timer (minute):";
-            this.lb_periodBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lb_periodBox.Text = "(minute):";
+            this.lb_periodBox.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // panel1
             // 
@@ -163,11 +153,10 @@ namespace ChroniTask
             this.panel1.Controls.Add(this.lb_periodBox);
             this.panel1.Controls.Add(this.subtract_btn);
             this.panel1.Controls.Add(this.checkBoxHibernate);
-            this.panel1.Controls.Add(this.reset_btn);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 25);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(414, 160);
+            this.panel1.Size = new System.Drawing.Size(294, 160);
             this.panel1.TabIndex = 35;
             // 
             // panel3
@@ -177,7 +166,7 @@ namespace ChroniTask
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel3.Location = new System.Drawing.Point(0, 185);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(414, 39);
+            this.panel3.Size = new System.Drawing.Size(294, 39);
             this.panel3.TabIndex = 37;
             this.panel3.DoubleClick += new System.EventHandler(this.panelExternalTime_DoubleClick);
             // 
@@ -186,7 +175,7 @@ namespace ChroniTask
             this.lbRecentAmount.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbRecentAmount.Location = new System.Drawing.Point(0, 0);
             this.lbRecentAmount.Name = "lbRecentAmount";
-            this.lbRecentAmount.Size = new System.Drawing.Size(414, 39);
+            this.lbRecentAmount.Size = new System.Drawing.Size(294, 39);
             this.lbRecentAmount.TabIndex = 0;
             this.lbRecentAmount.Text = "??";
             this.lbRecentAmount.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -205,13 +194,13 @@ namespace ChroniTask
             this.panelExternalTime.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelExternalTime.Location = new System.Drawing.Point(0, 224);
             this.panelExternalTime.Name = "panelExternalTime";
-            this.panelExternalTime.Size = new System.Drawing.Size(414, 120);
+            this.panelExternalTime.Size = new System.Drawing.Size(294, 120);
             this.panelExternalTime.TabIndex = 38;
             this.panelExternalTime.DoubleClick += new System.EventHandler(this.panelExternalTime_DoubleClick);
             // 
             // add_btn
             // 
-            this.add_btn.Location = new System.Drawing.Point(164, 74);
+            this.add_btn.Location = new System.Drawing.Point(97, 74);
             this.add_btn.Name = "add_btn";
             this.add_btn.Size = new System.Drawing.Size(94, 29);
             this.add_btn.TabIndex = 28;
@@ -221,7 +210,7 @@ namespace ChroniTask
             // 
             // outer_time_box
             // 
-            this.outer_time_box.Location = new System.Drawing.Point(176, 36);
+            this.outer_time_box.Location = new System.Drawing.Point(109, 36);
             this.outer_time_box.Name = "outer_time_box";
             this.outer_time_box.Size = new System.Drawing.Size(67, 26);
             this.outer_time_box.TabIndex = 26;
@@ -231,7 +220,7 @@ namespace ChroniTask
             // button2
             // 
             this.button2.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.button2.Location = new System.Drawing.Point(132, 36);
+            this.button2.Location = new System.Drawing.Point(65, 36);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(36, 26);
             this.button2.TabIndex = 34;
@@ -245,7 +234,7 @@ namespace ChroniTask
             this.label1.Dock = System.Windows.Forms.DockStyle.Top;
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(414, 20);
+            this.label1.Size = new System.Drawing.Size(294, 20);
             this.label1.TabIndex = 27;
             this.label1.Text = "External Time (minute):";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -254,7 +243,7 @@ namespace ChroniTask
             // button1
             // 
             this.button1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.button1.Location = new System.Drawing.Point(249, 36);
+            this.button1.Location = new System.Drawing.Point(182, 36);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(36, 26);
             this.button1.TabIndex = 33;
@@ -266,7 +255,7 @@ namespace ChroniTask
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.Info;
-            this.ClientSize = new System.Drawing.Size(414, 351);
+            this.ClientSize = new System.Drawing.Size(294, 351);
             this.Controls.Add(this.panelExternalTime);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
@@ -293,7 +282,6 @@ namespace ChroniTask
         public System.Windows.Forms.Button subtract_btn;
         public System.Windows.Forms.Timer _timer;
         public System.Windows.Forms.Label date_lb;
-        public System.Windows.Forms.Button reset_btn;
         public System.Windows.Forms.Timer _pauseTimer;
         public System.Windows.Forms.CheckBox checkBoxHibernate;
         public System.Windows.Forms.Label lb_periodBox;

@@ -17,6 +17,7 @@ namespace ChroniClock
         private int _remainingMilliseconds;
         private double _pomodoroCount = 0;
         public string[] _todayData;
+        public bool IsRunning { get; private set; } = false;
 
         public PomodoroTimer(MainWindow form)
         {
@@ -100,8 +101,9 @@ namespace ChroniClock
             _form.subtract_btn.Enabled = true;
             _form.add_btn.Enabled = true;
 
-            _form.reset_btn.Enabled = false;
             _remainingMilliseconds = 0;
+            _form.start_btn.Text = "Start";
+            IsRunning = false;
         }
 
         public void HibernateSystem()
@@ -114,8 +116,9 @@ namespace ChroniClock
         public void StartPomodoro()
         {
             FlashTaskbar.StopFlashing();
-            _form.reset_btn.Enabled = true;
             InitializePomodoroTimer();
+            _form.start_btn.Text = "Reset";
+            IsRunning = true;
         }
 
         private void InitializePomodoroTimer()
@@ -153,7 +156,6 @@ namespace ChroniClock
 
         private void DisableFormControls()
         {
-            _form.start_btn.Enabled = false;
             _form.plus_btn.Enabled = false;
             _form.subtract_btn.Enabled = false;
             _form.add_btn.Enabled = false;

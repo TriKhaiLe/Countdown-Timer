@@ -44,7 +44,6 @@ namespace ChroniTask
 
             form.Invalidate(); // Force the form to repaint
             form.period_box.Text = "45";
-            form.reset_btn.Enabled = false;
         }
     }
 }

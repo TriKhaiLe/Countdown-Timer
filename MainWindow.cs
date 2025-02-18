@@ -33,7 +33,14 @@ namespace ChroniTask
 
         private void start_Click(object sender, EventArgs e)
         {
-            _pomodoroTimer.StartPomodoro();
+            if (_pomodoroTimer.IsRunning)
+            {
+                _pomodoroTimer.ResetPomodoro();
+            }
+            else
+            {
+                _pomodoroTimer.StartPomodoro();
+            }
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -42,11 +49,6 @@ namespace ChroniTask
         }
 
         public ToolTip _toolTip = new ToolTip();
-
-        private void reset_btn_Click(object sender, EventArgs e)
-        {
-            _pomodoroTimer.ResetPomodoro();
-        }
 
         private void add_btn_Click(object sender, EventArgs e)
         {
