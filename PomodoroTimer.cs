@@ -116,6 +116,7 @@ namespace Timer
 
         public void StartPomodoro()
         {
+            _form.reset_btn.Enabled = true;
             InitializePomodoroTimer();
         }
 
