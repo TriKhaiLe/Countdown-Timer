@@ -192,6 +192,7 @@ namespace ChroniTask
             this.lbRecentAmount.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.lbRecentAmount.Click += new System.EventHandler(this.lbRecentAmount_Click);
             this.lbRecentAmount.DoubleClick += new System.EventHandler(this.panelExternalTime_DoubleClick);
+            this.lbRecentAmount.MouseHover += new System.EventHandler(this.lbRecentAmount_MouseHover);
             // 
             // panelExternalTime
             // 

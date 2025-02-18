@@ -165,10 +165,16 @@ namespace ChroniTask
         {
             if (((MouseEventArgs)e).Button == MouseButtons.Right)
             {
+                lbRecentAmount.Visible = false;
                 Clipboard.SetText(lbRecentAmount.Text);
-                _toolTip.Show("Copied to clipboard", lbRecentAmount);
+                lbRecentAmount.Visible = true;
             }
 
+        }
+
+        private void lbRecentAmount_MouseHover(object sender, EventArgs e)
+        {
+            _toolTip.Show("Right click to copy", lbRecentAmount);
         }
     }
 }
