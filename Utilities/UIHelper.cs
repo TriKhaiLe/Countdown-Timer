@@ -3,7 +3,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
-namespace Scheduler
+namespace ChroniTask
 {
     internal class UIHelper
     {

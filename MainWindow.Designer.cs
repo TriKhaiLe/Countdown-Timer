@@ -1,5 +1,5 @@
 ﻿
-namespace Scheduler
+namespace ChroniTask
 {
     partial class MainWindow
     {

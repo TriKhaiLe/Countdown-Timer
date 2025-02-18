@@ -3,24 +3,23 @@ using System.Windows.Forms;
 using Color = System.Drawing.Color;
 using ChroniClock;
 
-namespace Scheduler
+namespace ChroniTask
 {
     public partial class MainWindow : Form
     {
         public PomodoroTimer _pomodoroTimer;
-        public MediaPlayer _mediaPlayer;
+        public MediaPlayerService _mediaPlayer;
 
         public MainWindow()
         {
             InitializeComponent();
             _pomodoroTimer = new PomodoroTimer(this);
-            _mediaPlayer = new MediaPlayer();
+            _mediaPlayer = new MediaPlayerService();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             UIHelper.InitializeUI(this);
-            _mediaPlayer.InitializeMediaPlayer();
             LoadAndInitializeDayData();
         }
 

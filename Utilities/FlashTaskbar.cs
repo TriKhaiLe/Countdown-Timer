@@ -24,7 +24,7 @@ namespace ChroniClock.Utilities
         }
 
         private const uint FLASHW_ALL = 3;
-        private static Timer flashTimer;
+        private static System.Windows.Forms.Timer flashTimer;
         private static int[] flashPattern = { 700, 500, 300, 200, 300, 500, 700 };
         private static int flashIndex = 0;
         private static Form targetForm;
@@ -35,7 +35,7 @@ namespace ChroniClock.Utilities
             targetForm = form;
             if (flashTimer == null)
             {
-                flashTimer = new Timer();
+                flashTimer = new System.Windows.Forms.Timer();
                 flashTimer.Tick += new EventHandler(FlashStep);
             }
             flashIndex = 0;

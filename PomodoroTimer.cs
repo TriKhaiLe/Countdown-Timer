@@ -1,4 +1,4 @@
-﻿using Scheduler;
+﻿using ChroniTask;
 using System;
 using System.IO;
 using System.Windows.Forms;
@@ -50,6 +50,7 @@ namespace ChroniClock
         {
             if (_remainingMilliseconds <= 0)
             {
+                _form._mediaPlayer.Play();
                 CompletePomodoroCycle();
                 return;
             }
@@ -68,13 +69,11 @@ namespace ChroniClock
             StopAllTimers();
             UpdatePomodoroCount();
             ResetFormFields();
-
             FlashTaskbar.StartFlashing(_form);
         }
 
         private void StopAllTimers()
         {
-            _form._mediaPlayer.Stop();
             _form._timer.Stop();
             _form._pauseTimer.Start();
         }
@@ -116,6 +115,7 @@ namespace ChroniClock
 
         public void StartPomodoro()
         {
+            FlashTaskbar.StopFlashing();
             _form.reset_btn.Enabled = true;
             InitializePomodoroTimer();
         }
