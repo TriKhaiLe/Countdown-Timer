@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Timer.Properties {
+namespace ChroniClock.Properties {
     using System;
     
     

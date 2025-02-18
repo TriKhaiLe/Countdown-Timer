@@ -23,7 +23,7 @@ namespace Scheduler
         (Color.FromArgb(173, 216, 230), Color.FromArgb(0, 255, 127))    // Cool Mint
         };
 
-        public static void InitializeUI(Form1 form)
+        public static void InitializeUI(MainWindow form)
         {
             var gradient = GradientColors[_random.Next(GradientColors.Length)];
 

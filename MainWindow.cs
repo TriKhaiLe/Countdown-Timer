@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Windows.Forms;
 using Color = System.Drawing.Color;
-using Timer;
+using ChroniClock;
 
 namespace Scheduler
 {
-    public partial class Form1 : Form
+    public partial class MainWindow : Form
     {
         public PomodoroTimer _pomodoroTimer;
         public MediaPlayer _mediaPlayer;
 
-        public Form1()
+        public MainWindow()
         {
             InitializeComponent();
             _pomodoroTimer = new PomodoroTimer(this);

@@ -4,13 +4,13 @@ using System.IO;
 using System.Windows.Forms;
 using Color = System.Drawing.Color;
 using Tulpep.NotificationWindow;
-using Timer.Utilities;
+using ChroniClock.Utilities;
 
-namespace Timer
+namespace ChroniClock
 {
     public class PomodoroTimer
     {
-        private readonly Form1 _form;
+        private readonly MainWindow _form;
         private const double PomodoroUnit = 25.0;
         private const int OneSecond = 1000;
 
@@ -18,7 +18,7 @@ namespace Timer
         private double _pomodoroCount = 0;
         public string[] _todayData;
 
-        public PomodoroTimer(Form1 form)
+        public PomodoroTimer(MainWindow form)
         {
             _form = form;
         }
@@ -69,7 +69,7 @@ namespace Timer
             UpdatePomodoroCount();
             ResetFormFields();
 
-            FlashTaskbar.Flash(_form);
+            FlashTaskbar.StartFlashing(_form);
         }
 
         private void StopAllTimers()
@@ -142,7 +142,8 @@ namespace Timer
         {
             try
             {
-                int result = Convert.ToInt32(_form.period_box.Text) * 60 * OneSecond;
+                int result = Convert.ToInt32(_form.period_box.Text) * OneSecond;
+                //int result = Convert.ToInt32(_form.period_box.Text) * 60 * OneSecond;
                 return result;
             }
             catch
