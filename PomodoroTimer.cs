@@ -58,14 +58,6 @@ namespace Timer
             _remainingMilliseconds -= OneSecond;
         }
 
-        private void PopupAlert()
-        {
-            PopupNotifier popup = new PopupNotifier();
-            popup.Image = Timer.Properties.Resources.clock;
-            popup.TitleText = "Hurry!";
-            popup.Popup();
-        }
-
         private void UpdateTimerDisplay()
         {
             _form.period_box.Text = TimeSpan.FromMilliseconds(_remainingMilliseconds).ToString();
