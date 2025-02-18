@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using Color = System.Drawing.Color;
 using ChroniClock;
+using ChroniClock.Utilities;
 
 namespace ChroniTask
 {
@@ -54,8 +55,7 @@ namespace ChroniTask
 
         private void _pauseTimer_Tick(object sender, EventArgs e)
         {
-            this.WindowState = FormWindowState.Minimized;
-            this.WindowState = FormWindowState.Normal;
+            FlashTaskbar.StartFlashing(this);
         }
 
         private void plus_btn_Click(object sender, EventArgs e)

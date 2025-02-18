@@ -59,7 +59,7 @@ namespace ChroniTask
             this.period_box.Location = new System.Drawing.Point(153, 61);
             this.period_box.Name = "period_box";
             this.period_box.Size = new System.Drawing.Size(107, 26);
-            this.period_box.TabIndex = 10;
+            this.period_box.TabIndex = 18;
             this.period_box.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.period_box.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.period_box_KeyPress);
             // 
@@ -69,7 +69,7 @@ namespace ChroniTask
             this.start_btn.Location = new System.Drawing.Point(296, 101);
             this.start_btn.Name = "start_btn";
             this.start_btn.Size = new System.Drawing.Size(94, 36);
-            this.start_btn.TabIndex = 18;
+            this.start_btn.TabIndex = 10;
             this.start_btn.Text = "Start";
             this.start_btn.UseVisualStyleBackColor = false;
             this.start_btn.Click += new System.EventHandler(this.start_Click);
