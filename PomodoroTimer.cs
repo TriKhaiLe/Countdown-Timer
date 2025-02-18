@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows.Forms;
 using Color = System.Drawing.Color;
 using Tulpep.NotificationWindow;
+using Timer.Utilities;
 
 namespace Timer
 {
@@ -14,9 +15,6 @@ namespace Timer
         private const int OneSecond = 1000;
 
         private int _remainingMilliseconds;
-        private char _currentOption = '0';
-        private char _alertLatch = '0';
-        private char _soundLatch = '0';
         private double _pomodoroCount = 0;
         public string[] _todayData;
 
@@ -56,24 +54,8 @@ namespace Timer
                 return;
             }
 
-            HandleCountdownAlerts();
             UpdateTimerDisplay();
             _remainingMilliseconds -= OneSecond;
-        }
-
-        private void HandleCountdownAlerts()
-        {
-            if (_remainingMilliseconds <= 10000 && _soundLatch == '0')
-            {
-                _form._mediaPlayer.Play();
-                _soundLatch = '1';
-            }
-
-            if (_remainingMilliseconds <= 300000 && _alertLatch == '0')
-            {
-                PopupAlert();
-                _alertLatch = '1';
-            }
         }
 
         private void PopupAlert()
@@ -95,15 +77,7 @@ namespace Timer
             UpdatePomodoroCount();
             ResetFormFields();
 
-            if (_currentOption == '0')
-            {
-                _form.WindowState = FormWindowState.Normal;
-                _form.reset_btn.Enabled = false;
-            }
-            else
-            {
-                HibernateSystem();
-            }
+            FlashTaskbar.Flash(_form);
         }
 
         private void StopAllTimers()
@@ -139,13 +113,10 @@ namespace Timer
 
             _form.reset_btn.Enabled = false;
             _remainingMilliseconds = 0;
-            _alertLatch = '0';
-            _soundLatch = '0';
         }
 
         public void HibernateSystem()
         {
-            _currentOption = '0';
             _form.checkBoxHibernate.Checked = false;
             Application.SetSuspendState(PowerState.Hibernate, true, true);
         }
@@ -153,22 +124,7 @@ namespace Timer
 
         public void StartPomodoro()
         {
-            SetPomodoroOption();
             InitializePomodoroTimer();
-        }
-
-        private void SetPomodoroOption()
-        {
-            if (!_form.checkBoxHibernate.Checked)
-            {
-                _currentOption = '0';
-                _form.reset_btn.Enabled = true;
-            }
-            else
-            {
-                _currentOption = '1';
-                _form.reset_btn.Enabled = false;
-            }
         }
 
         private void InitializePomodoroTimer()
@@ -219,7 +175,7 @@ namespace Timer
                 MessageBoxButtons.YesNo, 
                 MessageBoxIcon.Information) 
                 == 
-                DialogResult.No || _currentOption == '1')
+                DialogResult.No)
             {
                 e.Cancel = true;
                 ResumePomodoroTimer();
