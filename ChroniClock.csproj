@@ -126,7 +126,6 @@
   <ItemGroup>
     <Content Include="Resources\countdown-sound.wav" />
     <None Include="Resources\timeout-sound.wav" />
-    <None Include="Resources\timeout-sound.mp3" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -83,12 +83,10 @@ namespace ChroniClock
             double lastPomo = Convert.ToDouble(_todayData[1]);
             _pomodoroCount -= _remainingMilliseconds / 1000.0 / 60.0 / PomodoroUnit;
             double newAmount = _pomodoroCount - lastPomo;
+            _form.lbRecentAmount.Text = newAmount.ToString("F1");
             _todayData[1] = _pomodoroCount.ToString("F1");
             _form.date_lb.Text = $"Today {_todayData[0]}, completed {_todayData[1]} pomodoros";
             File.WriteAllLines("today.txt", _todayData);
-
-            string message = $"Bạn đã hoàn thành {newAmount.ToString("F1")} Pomodoro!";
-            _form._toolTip.Show(message, _form, _form.Width / 2, _form.Height / 2, 2000);
         }
 
         private void ResetFormFields()

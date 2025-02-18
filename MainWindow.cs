@@ -9,6 +9,7 @@ namespace ChroniTask
     {
         public PomodoroTimer _pomodoroTimer;
         public MediaPlayerService _mediaPlayer;
+        private bool _isPanelExternalTimeCollapsed = false; 
 
         public MainWindow()
         {
@@ -21,6 +22,7 @@ namespace ChroniTask
         {
             UIHelper.InitializeUI(this);
             LoadAndInitializeDayData();
+            panelExternalTime_DoubleClick(sender, e);
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -141,6 +143,32 @@ namespace ChroniTask
         {
             // show some signals to user
             _toolTip.Show("Double click to refresh", date_lb);
+        }
+
+        private void panelExternalTime_DoubleClick(object sender, EventArgs e)
+        {
+            if (_isPanelExternalTimeCollapsed)
+            {
+                this.Height += panelExternalTime.Height;
+                panelExternalTime.Visible = true;
+            }
+            else
+            {
+                this.Height -= panelExternalTime.Height;
+                panelExternalTime.Visible = false;
+            }
+            _isPanelExternalTimeCollapsed = !_isPanelExternalTimeCollapsed;
+
+        }
+
+        private void lbRecentAmount_Click(object sender, EventArgs e)
+        {
+            if (((MouseEventArgs)e).Button == MouseButtons.Right)
+            {
+                Clipboard.SetText(lbRecentAmount.Text);
+                _toolTip.Show("Copied to clipboard", lbRecentAmount);
+            }
+
         }
     }
 }
