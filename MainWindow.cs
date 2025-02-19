@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using Color = System.Drawing.Color;
 using ChroniClock;
 using ChroniClock.Utilities;
+using System.Drawing;
 
 namespace ChroniTask
 {
@@ -10,13 +11,16 @@ namespace ChroniTask
     {
         public PomodoroTimer _pomodoroTimer;
         public MediaPlayerService _mediaPlayer;
-        private bool _isPanelExternalTimeCollapsed = false; 
+        private bool _isPanelExternalTimeCollapsed = false;
+        private NotifyIcon trayIcon;
+        private ContextMenuStrip trayMenu;
 
         public MainWindow()
         {
             InitializeComponent();
             _pomodoroTimer = new PomodoroTimer(this);
             _mediaPlayer = new MediaPlayerService();
+            InitializeTrayIcon();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -24,6 +28,28 @@ namespace ChroniTask
             UIHelper.InitializeUI(this);
             LoadAndInitializeDayData();
             panelExternalTime_DoubleClick(sender, e);
+        }
+
+        private void InitializeTrayIcon()
+        {
+            // Khởi tạo ContextMenuStrip
+            trayMenu = new ContextMenuStrip();
+            trayMenu.Items.Add("Start/Reset", null, start_Click);
+
+            // Khởi tạo NotifyIcon
+            trayIcon = new NotifyIcon
+            {
+                Icon = SystemIcons.Application, // Bạn có thể thay icon khác
+                ContextMenuStrip = trayMenu,
+                Visible = true,
+                Text = "ChroniClock"
+            };
+
+            trayIcon.DoubleClick += (s, e) =>
+            {
+                ShowInTaskbar = true;
+                WindowState = FormWindowState.Normal;
+            };
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -177,6 +203,15 @@ namespace ChroniTask
         private void lbRecentAmount_MouseHover(object sender, EventArgs e)
         {
             _toolTip.Show("Right click to copy", lbRecentAmount);
+        }
+
+        private void MainWindow_Resize(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized)
+            {
+                ShowInTaskbar = false;
+            }
+            
         }
     }
 }
