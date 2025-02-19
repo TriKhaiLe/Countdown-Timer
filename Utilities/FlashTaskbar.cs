@@ -70,6 +70,22 @@ namespace ChroniClock.Utilities
                 flashTimer.Stop();
             }
             isFlashing = false;
+
+            if (targetForm != null)
+            {
+                FLASHWINFO fInfo = new FLASHWINFO
+                {
+                    cbSize = (uint)Marshal.SizeOf(typeof(FLASHWINFO)),
+                    hwnd = targetForm.Handle,
+                    dwFlags = 0, // Tắt nhấp nháy hoàn toàn
+                    uCount = 1,
+                    dwTimeout = 0
+                };
+                FlashWindowEx(ref fInfo);
+
+                targetForm.Activate();
+            }
+
         }
     }
 }

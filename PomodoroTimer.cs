@@ -115,10 +115,10 @@ namespace ChroniClock
 
         public void StartPomodoro()
         {
-            FlashTaskbar.StopFlashing();
             InitializePomodoroTimer();
             _form.start_btn.Text = "Reset";
             IsRunning = true;
+            FlashTaskbar.StopFlashing();
         }
 
         private void InitializePomodoroTimer()
@@ -198,6 +198,7 @@ namespace ChroniClock
             {
                 _form._timer.Start();
                 _form._pauseTimer.Stop();
+                FlashTaskbar.StopFlashing();
             }
         }
 
