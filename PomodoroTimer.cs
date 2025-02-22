@@ -70,6 +70,7 @@ namespace ChroniClock
             StopAllTimers();
             UpdatePomodoroCount();
             ResetFormFields();
+            _form.ShowInTaskbar = true;
             FlashTaskbar.StartFlashing(_form);
         }
 
@@ -144,8 +145,8 @@ namespace ChroniClock
         {
             try
             {
-                int result = Convert.ToInt32(_form.period_box.Text) * OneSecond;
-                //int result = Convert.ToInt32(_form.period_box.Text) * 60 * OneSecond;
+                //int result = Convert.ToInt32(_form.period_box.Text) * OneSecond;
+                int result = Convert.ToInt32(_form.period_box.Text) * 60 * OneSecond;
                 return result;
             }
             catch
