@@ -219,22 +219,7 @@ namespace ChroniClock
 
                 UpdateUI();
                 _form.outer_time_box.Text = "";
-
-                // popup amount added
-                PopupNotifier popup = new PopupNotifier
-                {
-                    TitleText = "Pomodoro Time Added",
-                    ContentText = $"You have added {newPomoAmount - oldPomoAmount} Pomo to your Pomodoro count",
-                    ContentFont = new System.Drawing.Font("Tahoma", 10),
-                    TitleFont = new System.Drawing.Font("Tahoma", 12),
-                    TitleColor = Color.DarkGreen,
-                    ContentColor = Color.Black,
-                    ImagePadding = new Padding(10),
-                    ImageSize = new System.Drawing.Size(50, 50),
-                    AnimationDuration = 500,
-                    Delay = 2000
-                };
-                popup.Popup();
+                _form.lbRecentAmount.Text = newPomoAmount.ToString("F1");
 
             }
             catch
