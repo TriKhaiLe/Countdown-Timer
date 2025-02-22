@@ -213,5 +213,13 @@ namespace ChroniTask
             }
             
         }
+
+        private void trackBarTime_Scroll(object sender, EventArgs e)
+        {
+            int step = 5;
+            int newValue = (trackBarTime.Value / step) * step; // Làm tròn về bội số gần nhất
+            trackBarTime.Value = newValue;
+            period_box.Text = trackBarTime.Value.ToString();
+        }
     }
 }

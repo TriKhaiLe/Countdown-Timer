@@ -96,10 +96,9 @@ namespace ChroniClock
             _form.lb_periodBox.Text = "Set Timer:";
             _form.lb_periodBox.ForeColor = Color.Black;
             _form.period_box.Text = "45";
+            _form.trackBarTime.Value = 45;
 
             _form.start_btn.Enabled = true;
-            _form.plus_btn.Enabled = true;
-            _form.subtract_btn.Enabled = true;
             _form.add_btn.Enabled = true;
 
             _remainingMilliseconds = 0;
@@ -158,8 +157,6 @@ namespace ChroniClock
 
         private void DisableFormControls()
         {
-            _form.plus_btn.Enabled = false;
-            _form.subtract_btn.Enabled = false;
             _form.add_btn.Enabled = false;
         }
 
