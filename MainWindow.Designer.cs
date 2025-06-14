@@ -1,5 +1,4 @@
-﻿
-namespace ChroniTask
+﻿namespace ChroniTask
 {
     partial class MainWindow
     {
@@ -169,6 +168,8 @@ namespace ChroniTask
             this.lbRecentAmount.Click += new System.EventHandler(this.lbRecentAmount_Click);
             this.lbRecentAmount.DoubleClick += new System.EventHandler(this.panelExternalTime_DoubleClick);
             this.lbRecentAmount.MouseHover += new System.EventHandler(this.lbRecentAmount_MouseHover);
+            this.lbRecentAmount.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lbRecentAmount_MouseDown);
+            this.lbRecentAmount.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lbRecentAmount_MouseMove);
             // 
             // panelExternalTime
             // 

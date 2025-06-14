@@ -76,6 +76,10 @@ namespace ChroniTask
 
         public ToolTip _toolTip = new ToolTip();
 
+        // For drag-and-drop support
+        private Point _dragStartPoint;
+        private bool _isDragging = false;
+
         private void add_btn_Click(object sender, EventArgs e)
         {
             _pomodoroTimer.AddExternalPomodoroTime();
@@ -202,7 +206,33 @@ namespace ChroniTask
 
         private void lbRecentAmount_MouseHover(object sender, EventArgs e)
         {
-            _toolTip.Show("Right click to copy", lbRecentAmount);
+            _toolTip.Show("Right click to copy\nDrag to export", lbRecentAmount);
+        }
+
+        private void lbRecentAmount_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                _dragStartPoint = e.Location;
+                _isDragging = true;
+            }
+        }
+
+        private void lbRecentAmount_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (_isDragging && e.Button == MouseButtons.Left)
+            {
+                // Start drag if moved enough pixels 
+                if (Math.Abs(e.X - _dragStartPoint.X) > SystemInformation.DragSize.Width / 2 ||
+                    Math.Abs(e.Y - _dragStartPoint.Y) > SystemInformation.DragSize.Height / 2)
+                {
+                    _isDragging = false;
+                    if (!string.IsNullOrEmpty(lbRecentAmount.Text))
+                    {
+                        lbRecentAmount.DoDragDrop(lbRecentAmount.Text, DragDropEffects.Copy);
+                    }
+                }
+            }
         }
 
         private void MainWindow_Resize(object sender, EventArgs e)
