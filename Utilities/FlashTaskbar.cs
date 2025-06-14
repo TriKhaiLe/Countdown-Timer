@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ChroniClock.Utilities
@@ -24,68 +20,44 @@ namespace ChroniClock.Utilities
         }
 
         private const uint FLASHW_ALL = 3;
-        private static System.Windows.Forms.Timer flashTimer;
-        private static int[] flashPattern = { 700, 500, 300, 200, 300, 500, 700 };
-        private static int flashIndex = 0;
-        private static Form targetForm;
-        private static bool isFlashing = false;
+        private const uint FLASHW_STOP = 0;
+
+        // Remove custom timer and pattern logic
 
         public static void StartFlashing(Form form)
         {
-            targetForm = form;
-            if (flashTimer == null)
-            {
-                flashTimer = new System.Windows.Forms.Timer();
-                flashTimer.Tick += new EventHandler(FlashStep);
-            }
-            flashIndex = 0;
-            flashTimer.Interval = flashPattern[flashIndex]; // Lấy thời gian đầu tiên
-            flashTimer.Start();
-        }
-
-        private static void FlashStep(object sender, EventArgs e)
-        {
-            if (targetForm == null) return;
-
+            if (form == null) return;
             FLASHWINFO fInfo = new FLASHWINFO
             {
                 cbSize = (uint)Marshal.SizeOf(typeof(FLASHWINFO)),
-                hwnd = targetForm.Handle,
-                dwFlags = isFlashing ? 0 : FLASHW_ALL, // Nhấp nháy ON/OFF
-                uCount = 1,
+                hwnd = form.Handle,
+                dwFlags = FLASHW_ALL, // Use default Windows flashing
+                uCount = uint.MaxValue, // Flash until window comes to foreground
                 dwTimeout = 0
             };
             FlashWindowEx(ref fInfo);
-
-            isFlashing = !isFlashing; // Đảo trạng thái (Bật ↔ Tắt)
-
-            flashIndex = (flashIndex + 1) % flashPattern.Length; // Chuyển sang nhịp tiếp theo
-            flashTimer.Interval = flashPattern[flashIndex]; // Cập nhật thời gian
         }
 
         public static void StopFlashing()
         {
-            if (flashTimer != null)
+            // No need to keep state or timer, just stop flashing on the last target form if needed
+            // This method is kept for compatibility, but you may want to pass the form as a parameter
+            // For now, do nothing
+        }
+
+        public static void StopFlashing(Form form)
+        {
+            if (form == null) return;
+            FLASHWINFO fInfo = new FLASHWINFO
             {
-                flashTimer.Stop();
-            }
-            isFlashing = false;
-
-            if (targetForm != null)
-            {
-                FLASHWINFO fInfo = new FLASHWINFO
-                {
-                    cbSize = (uint)Marshal.SizeOf(typeof(FLASHWINFO)),
-                    hwnd = targetForm.Handle,
-                    dwFlags = 0, // Tắt nhấp nháy hoàn toàn
-                    uCount = 1,
-                    dwTimeout = 0
-                };
-                FlashWindowEx(ref fInfo);
-
-                targetForm.Activate();
-            }
-
+                cbSize = (uint)System.Runtime.InteropServices.Marshal.SizeOf(typeof(FLASHWINFO)),
+                hwnd = form.Handle,
+                dwFlags = FLASHW_STOP, // Stop flashing
+                uCount = 0,
+                dwTimeout = 0
+            };
+            FlashWindowEx(ref fInfo);
+            form.Activate();
         }
     }
 }
