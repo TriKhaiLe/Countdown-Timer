@@ -206,17 +206,15 @@ namespace ChroniClock
         {
             try
             {
-                // get old and new pomo amount to show in popup, then update the file
                 double duration = Convert.ToDouble(_form.outer_time_box.Text);
-                var oldPomoAmount = Convert.ToDouble(_todayData[1]);
-                _pomodoroCount += duration / PomodoroUnit;
+                var addedAmount = duration / PomodoroUnit;
+                _pomodoroCount += addedAmount;
                 _todayData[1] = _pomodoroCount.ToString("F1");
-                var newPomoAmount = Convert.ToDouble(_todayData[1]);
                 File.WriteAllLines("today.txt", _todayData);
 
                 UpdateUI();
                 _form.outer_time_box.Text = "";
-                _form.lbRecentAmount.Text = newPomoAmount.ToString("F1");
+                _form.lbRecentAmount.Text = addedAmount.ToString("F1"); // Show just the amount added
 
             }
             catch
