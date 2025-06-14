@@ -36,10 +36,9 @@ namespace ChroniTask
             trayMenu = new ContextMenuStrip();
             trayMenu.Items.Add("Start/Reset", null, start_Click);
 
-            // Khởi tạo NotifyIcon
             trayIcon = new NotifyIcon
             {
-                Icon = SystemIcons.Application, // Bạn có thể thay icon khác
+                Icon = SystemIcons.Application,
                 ContextMenuStrip = trayMenu,
                 Visible = true,
                 Text = "ChroniClock"

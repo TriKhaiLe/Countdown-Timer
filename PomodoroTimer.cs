@@ -181,9 +181,12 @@ namespace ChroniClock
         public void ResetPomodoro()
         {
             StopAllTimers();
+            _form.WindowState = FormWindowState.Normal;
             if (MessageBox.Show("Are you sure you want to Reset?", "Hey!", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
             {
                 ResumePomodoroTimer();
+                _form.WindowState = FormWindowState.Minimized;
+
                 return;
             }
 
