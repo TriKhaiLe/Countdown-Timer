@@ -99,7 +99,7 @@
             this.date_lb.TabIndex = 21;
             this.date_lb.Text = "Today";
             this.date_lb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.date_lb.DoubleClick += new System.EventHandler(this.date_lb_DoubleClick);
+            this.date_lb.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.date_lb_MouseDoubleClick);
             this.date_lb.MouseHover += new System.EventHandler(this.date_lb_MouseHover);
             // 
             // _pauseTimer

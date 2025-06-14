@@ -153,7 +153,7 @@ namespace ChroniTask
 
         }
 
-        private void date_lb_DoubleClick(object sender, EventArgs e)
+        private void date_lb_LeftMouse_DoubleClick(object sender, EventArgs e)
         {
             string today = DateTime.Now.ToString("dd/MM/yyyy");
             UIHelper.InitializeUI(this);
@@ -249,6 +249,44 @@ namespace ChroniTask
             int newValue = (trackBarTime.Value / step) * step; // Làm tròn về bội số gần nhất
             trackBarTime.Value = newValue;
             period_box.Text = trackBarTime.Value.ToString();
+        }
+
+        // Add this handler for mouse double click with button detection
+        private void date_lb_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                // Existing logic for left double click
+                date_lb_LeftMouse_DoubleClick(sender, e);
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                // Generate two random colors for the gradient
+                Random rnd = new Random();
+                Color color1 = Color.FromArgb(255, rnd.Next(256), rnd.Next(256), rnd.Next(256));
+                Color color2 = Color.FromArgb(255, rnd.Next(256), rnd.Next(256), rnd.Next(256));
+
+                // Remove previous handler if any
+                if (UIHelper.FormGradientPaintHandler != null)
+                    this.Paint -= UIHelper.FormGradientPaintHandler;
+
+                UIHelper.FormGradientPaintHandler = (s, pe) =>
+                {
+                    if (this.ClientRectangle.Width > 0 && this.ClientRectangle.Height > 0)
+                    {
+                        using (var brush = new System.Drawing.Drawing2D.LinearGradientBrush(
+                            this.ClientRectangle,
+                            color1,
+                            color2,
+                            45F))
+                        {
+                            pe.Graphics.FillRectangle(brush, this.ClientRectangle);
+                        }
+                    }
+                };
+                this.Paint += UIHelper.FormGradientPaintHandler;
+                this.Invalidate();
+            }
         }
     }
 }

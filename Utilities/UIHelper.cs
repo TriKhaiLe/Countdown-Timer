@@ -2,6 +2,7 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Windows.Forms;
 
 namespace ChroniTask
 {
@@ -23,11 +24,23 @@ namespace ChroniTask
         (Color.FromArgb(173, 216, 230), Color.FromArgb(0, 255, 127))    // Cool Mint
         };
 
+        // Add this static field to allow dynamic handler replacement
+        public static PaintEventHandler FormGradientPaintHandler;
+
+        public static (Color Start, Color End) GetRandomGradient()
+        {
+            return GradientColors[_random.Next(GradientColors.Length)];
+        }
+
         public static void InitializeUI(MainWindow form)
         {
-            var gradient = GradientColors[_random.Next(GradientColors.Length)];
+            var gradient = GetRandomGradient();
 
-            form.Paint += (sender, e) =>
+            // Remove previous handler if any
+            if (FormGradientPaintHandler != null)
+                form.Paint -= FormGradientPaintHandler;
+
+            FormGradientPaintHandler = (sender, e) =>
             {
                 if (form.ClientRectangle.Width > 0 && form.ClientRectangle.Height > 0)
                 {
@@ -41,6 +54,8 @@ namespace ChroniTask
                     }
                 }
             };
+
+            form.Paint += FormGradientPaintHandler;
 
             form.Invalidate(); // Force the form to repaint
             form.period_box.Text = "45";
