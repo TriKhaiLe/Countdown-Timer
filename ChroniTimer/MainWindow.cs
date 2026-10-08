@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace ChroniTimer
@@ -17,6 +19,7 @@ namespace ChroniTimer
         public (Color Start, Color End) CurrentGradient => _currentGradient;
         private PaintEventHandler? _gradientPaintHandler;
         private bool _isPanelExternalCollapsed = true;
+        private List<GradientColor> _savedColors = new();
 
         // ── Gradient palette ────────────────────────────────────────
         private static readonly Random _rng = new();
@@ -57,6 +60,7 @@ namespace ChroniTimer
         private TextBox _txtExternalHours = null!;
         private Button _btnAddExternal = null!;
         private ToolTip _toolTip = null!;
+        private Button _btnSaveColor = null!;
 
 
         public MainWindow()
@@ -70,6 +74,7 @@ namespace ChroniTimer
             SetupModernUI();
             SetupTimers();
             SetupTrayIcon();
+            _savedColors = _dataManager.LoadSavedColors();
             ApplyRandomGradient();
             RefreshDateLabel();
         }
@@ -77,7 +82,7 @@ namespace ChroniTimer
         private void InitializeComponent()
         {
             this.SuspendLayout();
-            this.ClientSize = new Size(400, 420);
+            this.ClientSize = new Size(400, 450);
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -228,6 +233,31 @@ namespace ChroniTimer
             buttonPanel.Controls.Add(_btnStart, 1, 0);
             buttonPanel.Controls.Add(_chkHibernate, 2, 0);
 
+            // ── Save color / Stats action row ───────────────────────
+            var actionPanel = new TableLayoutPanel
+            {
+                Dock = DockStyle.Top,
+                Height = 32,
+                ColumnCount = 2,
+                BackColor = Color.Transparent,
+                Padding = new Padding(50, 2, 50, 2)
+            };
+            actionPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
+            actionPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
+
+            _btnSaveColor = CreateModernButton("🎨 Save Color", Color.FromArgb(70, 60, 110));
+            _btnSaveColor.Font = new Font("Segoe UI", 8.5F, FontStyle.Bold);
+            _btnSaveColor.Click += BtnSaveColor_Click;
+            _toolTip.SetToolTip(_btnSaveColor, "Save current gradient to your favorites");
+
+            var btnStats = CreateModernButton("📊 Stats", Color.FromArgb(50, 70, 100));
+            btnStats.Font = new Font("Segoe UI", 8.5F, FontStyle.Bold);
+            btnStats.Click += BtnStats_Click;
+            _toolTip.SetToolTip(btnStats, "View your time tracking history");
+
+            actionPanel.Controls.Add(_btnSaveColor, 0, 0);
+            actionPanel.Controls.Add(btnStats, 1, 0);
+
             // ── Recent amount ───────────────────────────────────────
             _lblRecentAmount = new Label
             {
@@ -301,6 +331,7 @@ namespace ChroniTimer
             // ── Assembly: add to form (reverse order for Dock.Top) ──
             this.Controls.Add(_panelExternal);
             this.Controls.Add(_lblRecentAmount);
+            this.Controls.Add(actionPanel);
             this.Controls.Add(buttonPanel);
             this.Controls.Add(sliderPanel);
             this.Controls.Add(_lblStatus);
@@ -331,8 +362,16 @@ namespace ChroniTimer
 
         private void ApplyRandomGradient()
         {
-            var g = Gradients[_rng.Next(Gradients.Length)];
-            ApplyGradient(g.Start, g.End);
+            // Build combined pool: built-in gradients + saved colors
+            var allGradients = new List<(Color Start, Color End)>();
+            foreach (var g in Gradients)
+                allGradients.Add((g.Start, g.End));
+            foreach (var sc in _savedColors)
+                allGradients.Add((Color.FromArgb(sc.StartR, sc.StartG, sc.StartB),
+                                  Color.FromArgb(sc.EndR, sc.EndG, sc.EndB)));
+
+            var pick = allGradients[_rng.Next(allGradients.Count)];
+            ApplyGradient(pick.Start, pick.End);
         }
 
         private void ApplyGradient(Color start, Color end)
@@ -425,6 +464,7 @@ namespace ChroniTimer
                 WindowState = FormWindowState.Normal;
             });
             _trayMenu.Items.Add("Start / Reset", null, BtnStart_Click);
+            _trayMenu.Items.Add("📊 Statistics", null, BtnStats_Click);
             _trayMenu.Items.Add("-");
             _trayMenu.Items.Add("Exit", null, (s, e) => Application.Exit());
 
@@ -561,7 +601,39 @@ namespace ChroniTimer
         {
             _isPanelExternalCollapsed = !_isPanelExternalCollapsed;
             _panelExternal.Visible = !_isPanelExternalCollapsed;
-            this.Height = _isPanelExternalCollapsed ? 420 : 510;
+            this.Height = _isPanelExternalCollapsed ? 450 : 540;
+        }
+
+        private void BtnSaveColor_Click(object? sender, EventArgs e)
+        {
+            var (start, end) = _currentGradient;
+
+            // Check if this exact color pair already exists
+            bool alreadySaved = _savedColors.Any(sc =>
+                sc.StartR == start.R && sc.StartG == start.G && sc.StartB == start.B &&
+                sc.EndR == end.R && sc.EndG == end.G && sc.EndB == end.B);
+
+            if (alreadySaved)
+            {
+                _lblStatus.Text = "🎨 This color is already saved!";
+                return;
+            }
+
+            string name = $"Custom #{_savedColors.Count + 1}";
+            _savedColors.Add(new GradientColor
+            {
+                Name = name,
+                StartR = start.R, StartG = start.G, StartB = start.B,
+                EndR = end.R, EndG = end.G, EndB = end.B
+            });
+            _dataManager.SaveColors(_savedColors);
+            _lblStatus.Text = $"🎨 Color saved as \"{name}\" ({_savedColors.Count} total)";
+        }
+
+        private void BtnStats_Click(object? sender, EventArgs e)
+        {
+            using var statsWindow = new StatisticsWindow(_dataManager, _timerEngine.TodayRecord);
+            statsWindow.ShowDialog(this);
         }
 
         private void MainWindow_Resize(object? sender, EventArgs e)
