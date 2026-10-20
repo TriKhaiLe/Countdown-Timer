@@ -52,8 +52,8 @@ namespace ChroniTimer
         public double Stop()
         {
             if (!IsRunning) return 0;
-            IsRunning = false;
             double hoursElapsed = Elapsed.TotalHours;
+            IsRunning = false;
             LastSessionHours = hoursElapsed;
 
             // Add to today's total
