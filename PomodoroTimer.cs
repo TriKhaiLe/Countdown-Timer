@@ -142,17 +142,8 @@ namespace ChroniClock
 
         private int GetPeriodInMilliseconds()
         {
-            try
-            {
-                //int result = Convert.ToInt32(_form.period_box.Text) * OneSecond;
-                int result = Convert.ToInt32(_form.period_box.Text) * 60 * OneSecond;
-                return result;
-            }
-            catch
-            {
-                MessageBox.Show("Invalid input data. Please check again.");
-                return -1;
-            }
+            int minutes = _form.trackBarTime.Value;
+            return minutes * 60 * OneSecond;
         }
 
         private void DisableFormControls()
@@ -164,10 +155,10 @@ namespace ChroniClock
         {
             StopAllTimers();
 
-            if (MessageBox.Show("Are you sure you want to Exit?", "Hey!", 
-                MessageBoxButtons.YesNo, 
-                MessageBoxIcon.Information) 
-                == 
+            if (MessageBox.Show("Are you sure you want to Exit?", "Hey!",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Information)
+                ==
                 DialogResult.No)
             {
                 e.Cancel = true;

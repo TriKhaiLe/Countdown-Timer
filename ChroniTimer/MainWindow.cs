@@ -165,9 +165,9 @@ namespace ChroniTimer
 
             _trackBarHours = new TrackBar
             {
-                Minimum = 1,        // 0.5h
-                Maximum = 20,       // 10h
-                Value = 2,          // 1h default
+                Minimum = 1,        // 5m
+                Maximum = 20,       // 100m
+                Value = 2,          // 10m default
                 TickFrequency = 1,
                 LargeChange = 2,
                 Dock = DockStyle.Fill,
@@ -177,17 +177,16 @@ namespace ChroniTimer
 
             _lblSliderValue = new Label
             {
-                Text = "1.0 h",
+                Text = "10 minutes",
                 Font = new Font("Segoe UI", 10F, FontStyle.Bold),
                 ForeColor = Color.FromArgb(255, 200, 100),
                 TextAlign = ContentAlignment.MiddleCenter,
-                Dock = DockStyle.Right,
+                Dock = DockStyle.Top,
                 Width = 55,
                 BackColor = Color.Transparent
             };
 
             sliderPanel.Controls.Add(_trackBarHours);
-            sliderPanel.Controls.Add(_lblSliderValue);
 
             // ── Button row ──────────────────────────────────────────
             var buttonPanel = new TableLayoutPanel
@@ -333,6 +332,7 @@ namespace ChroniTimer
             this.Controls.Add(_lblRecentAmount);
             this.Controls.Add(actionPanel);
             this.Controls.Add(buttonPanel);
+            this.Controls.Add(_lblSliderValue);
             this.Controls.Add(sliderPanel);
             this.Controls.Add(_lblStatus);
             this.Controls.Add(_lblTimerDisplay);
@@ -488,8 +488,8 @@ namespace ChroniTimer
 
         private void TrackBarHours_Scroll(object? sender, EventArgs e)
         {
-            double hours = _trackBarHours.Value / 2.0;
-            _lblSliderValue.Text = $"{hours:F1} h";
+            double minutes = _trackBarHours.Value * 5.0;
+            _lblSliderValue.Text = $"{minutes:F1} minutes";
         }
 
         private void BtnStart_Click(object? sender, EventArgs e)
@@ -521,14 +521,14 @@ namespace ChroniTimer
             else
             {
                 // Start
-                double targetHours = _trackBarHours.Value / 2.0;
-                _timerEngine.Start(targetHours);
+                double targetMinutes = _trackBarHours.Value * 5.0;
+                _timerEngine.Start(targetMinutes / 60);
                 _tickTimer.Start();
                 _pauseFlashTimer.Stop();
                 _pauseFlashTimer.Start(); // reset the pause flash timer
                 FlashTaskbar.StopFlashing(this);
 
-                _lblStatus.Text = $"⏱ Counting up to {targetHours:F1}h...";
+                _lblStatus.Text = $"⏱ Counting...";
                 _btnStart.Text = "⏹  Reset";
                 _btnStart.BackColor = Color.FromArgb(220, 80, 60);
                 _trackBarHours.Enabled = false;
