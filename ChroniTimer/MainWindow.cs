@@ -232,22 +232,28 @@ namespace ChroniTimer
             buttonPanel.Controls.Add(_btnStart, 1, 0);
             buttonPanel.Controls.Add(_chkHibernate, 2, 0);
 
-            // ── Save color / Stats action row ───────────────────────
+            // ── Save color / AI Colors / Stats action row ────────────
             var actionPanel = new TableLayoutPanel
             {
                 Dock = DockStyle.Top,
                 Height = 32,
-                ColumnCount = 2,
+                ColumnCount = 3,
                 BackColor = Color.Transparent,
-                Padding = new Padding(50, 2, 50, 2)
+                Padding = new Padding(20, 2, 20, 2)
             };
-            actionPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
-            actionPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
+            actionPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33));
+            actionPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 34));
+            actionPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33));
 
             _btnSaveColor = CreateModernButton("🎨 Save Color", Color.FromArgb(70, 60, 110));
             _btnSaveColor.Font = new Font("Segoe UI", 8.5F, FontStyle.Bold);
             _btnSaveColor.Click += BtnSaveColor_Click;
             _toolTip.SetToolTip(_btnSaveColor, "Save current gradient to your favorites");
+
+            var btnAiColors = CreateModernButton("✨ AI Colors", Color.FromArgb(60, 50, 100));
+            btnAiColors.Font = new Font("Segoe UI", 8.5F, FontStyle.Bold);
+            btnAiColors.Click += BtnAiColors_Click;
+            _toolTip.SetToolTip(btnAiColors, "Get AI-suggested background colors from Gemini");
 
             var btnStats = CreateModernButton("📊 Stats", Color.FromArgb(50, 70, 100));
             btnStats.Font = new Font("Segoe UI", 8.5F, FontStyle.Bold);
@@ -255,7 +261,8 @@ namespace ChroniTimer
             _toolTip.SetToolTip(btnStats, "View your time tracking history");
 
             actionPanel.Controls.Add(_btnSaveColor, 0, 0);
-            actionPanel.Controls.Add(btnStats, 1, 0);
+            actionPanel.Controls.Add(btnAiColors, 1, 0);
+            actionPanel.Controls.Add(btnStats, 2, 0);
 
             // ── Recent amount ───────────────────────────────────────
             _lblRecentAmount = new Label
@@ -392,6 +399,14 @@ namespace ChroniTimer
             };
             this.Paint += _gradientPaintHandler;
             this.Invalidate();
+        }
+
+        /// <summary>
+        /// Public entry point so the ColorPickerWindow can apply a gradient.
+        /// </summary>
+        public void ApplyGradientFromExternal(Color start, Color end)
+        {
+            ApplyGradient(start, end);
         }
 
         // ═════════════════════════════════════════════════════════════
@@ -628,6 +643,12 @@ namespace ChroniTimer
             });
             _dataManager.SaveColors(_savedColors);
             _lblStatus.Text = $"🎨 Color saved as \"{name}\" ({_savedColors.Count} total)";
+        }
+
+        private void BtnAiColors_Click(object? sender, EventArgs e)
+        {
+            using var colorPicker = new ColorPickerWindow(this, _dataManager, _savedColors);
+            colorPicker.ShowDialog(this);
         }
 
         private void BtnStats_Click(object? sender, EventArgs e)
