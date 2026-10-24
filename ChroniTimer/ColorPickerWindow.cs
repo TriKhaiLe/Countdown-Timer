@@ -96,9 +96,30 @@ namespace ChroniTimer
                 BackColor = Color.Transparent
             };
 
+            var btnManageSaved = new Button
+            {
+                Text = "🎨 Manage",
+                Font = new Font("Segoe UI", 8.5F, FontStyle.Bold),
+                ForeColor = Color.White,
+                BackColor = Color.FromArgb(45, 60, 95),
+                FlatStyle = FlatStyle.Flat,
+                Size = new Size(95, 32),
+                Location = new Point(340, 18),
+                Cursor = Cursors.Hand
+            };
+            btnManageSaved.FlatAppearance.BorderSize = 1;
+            btnManageSaved.FlatAppearance.BorderColor = BorderDefault;
+            btnManageSaved.Click += (s, e) =>
+            {
+                using var settings = new SettingsWindow(_mainWindow, _dataManager, _savedColors, SettingsTab.SavedColors);
+                settings.ShowDialog(this);
+            };
+            btnManageSaved.MouseEnter += (s, e) => btnManageSaved.BackColor = Color.FromArgb(60, 80, 125);
+            btnManageSaved.MouseLeave += (s, e) => btnManageSaved.BackColor = Color.FromArgb(45, 60, 95);
+
             _btnRefresh = new Button
             {
-                Text = "🔄 New Colors",
+                Text = "🔄 New AI",
                 Font = new Font("Segoe UI", 8.5F, FontStyle.Bold),
                 ForeColor = Color.White,
                 BackColor = Color.FromArgb(55, 60, 95),
@@ -115,6 +136,7 @@ namespace ChroniTimer
 
             _headerPanel.Controls.Add(lblTitle);
             _headerPanel.Controls.Add(lblSubtitle);
+            _headerPanel.Controls.Add(btnManageSaved);
             _headerPanel.Controls.Add(_btnRefresh);
 
             // ── Status bar ─────────────────────────────────────────

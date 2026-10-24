@@ -68,6 +68,7 @@ namespace ChroniTimer
             InitializeComponent();
 
             _dataManager = new DataManager();
+            _dataManager.DataFolderChanged += OnDataFolderChanged;
             _timerEngine = new TimerEngine(_dataManager);
             _soundService = new SoundService();
 
@@ -232,25 +233,26 @@ namespace ChroniTimer
             buttonPanel.Controls.Add(_btnStart, 1, 0);
             buttonPanel.Controls.Add(_chkHibernate, 2, 0);
 
-            // ── Save color / AI Colors / Stats action row ────────────
+            // ── Save color / AI Colors / Stats / Settings action row ──
             var actionPanel = new TableLayoutPanel
             {
                 Dock = DockStyle.Top,
                 Height = 32,
-                ColumnCount = 3,
+                ColumnCount = 4,
                 BackColor = Color.Transparent,
-                Padding = new Padding(20, 2, 20, 2)
+                Padding = new Padding(12, 2, 12, 2)
             };
-            actionPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33));
-            actionPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 34));
-            actionPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33));
+            actionPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25));
+            actionPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25));
+            actionPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25));
+            actionPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25));
 
-            _btnSaveColor = CreateModernButton("🎨 Save Color", Color.FromArgb(70, 60, 110));
+            _btnSaveColor = CreateModernButton("💾 Save", Color.FromArgb(70, 60, 110));
             _btnSaveColor.Font = new Font("Segoe UI", 8.5F, FontStyle.Bold);
             _btnSaveColor.Click += BtnSaveColor_Click;
             _toolTip.SetToolTip(_btnSaveColor, "Save current gradient to your favorites");
 
-            var btnAiColors = CreateModernButton("✨ AI Colors", Color.FromArgb(60, 50, 100));
+            var btnAiColors = CreateModernButton("✨ AI", Color.FromArgb(60, 50, 100));
             btnAiColors.Font = new Font("Segoe UI", 8.5F, FontStyle.Bold);
             btnAiColors.Click += BtnAiColors_Click;
             _toolTip.SetToolTip(btnAiColors, "Get AI-suggested background colors from Gemini");
@@ -260,9 +262,15 @@ namespace ChroniTimer
             btnStats.Click += BtnStats_Click;
             _toolTip.SetToolTip(btnStats, "View your time tracking history");
 
+            var btnSettings = CreateModernButton("⚙ Settings", Color.FromArgb(45, 60, 95));
+            btnSettings.Font = new Font("Segoe UI", 8.5F, FontStyle.Bold);
+            btnSettings.Click += BtnSettings_Click;
+            _toolTip.SetToolTip(btnSettings, "Settings: data storage location and manage saved colors");
+
             actionPanel.Controls.Add(_btnSaveColor, 0, 0);
             actionPanel.Controls.Add(btnAiColors, 1, 0);
             actionPanel.Controls.Add(btnStats, 2, 0);
+            actionPanel.Controls.Add(btnSettings, 3, 0);
 
             // ── Recent amount ───────────────────────────────────────
             _lblRecentAmount = new Label
@@ -480,6 +488,7 @@ namespace ChroniTimer
             });
             _trayMenu.Items.Add("Start / Reset", null, BtnStart_Click);
             _trayMenu.Items.Add("📊 Statistics", null, BtnStats_Click);
+            _trayMenu.Items.Add("⚙ Settings", null, BtnSettings_Click);
             _trayMenu.Items.Add("-");
             _trayMenu.Items.Add("Exit", null, (s, e) => Application.Exit());
 
@@ -655,6 +664,23 @@ namespace ChroniTimer
         {
             using var statsWindow = new StatisticsWindow(_dataManager, _timerEngine.TodayRecord);
             statsWindow.ShowDialog(this);
+        }
+
+        private void BtnSettings_Click(object? sender, EventArgs e)
+        {
+            using var settingsWindow = new SettingsWindow(this, _dataManager, _savedColors);
+            settingsWindow.ShowDialog(this);
+            // Refresh in case changes were made
+            _savedColors = _dataManager.LoadSavedColors();
+            _timerEngine.RefreshTodayData();
+            RefreshDateLabel();
+        }
+
+        public void OnDataFolderChanged()
+        {
+            _savedColors = _dataManager.LoadSavedColors();
+            _timerEngine.RefreshTodayData();
+            RefreshDateLabel();
         }
 
         private void MainWindow_Resize(object? sender, EventArgs e)
